@@ -29,6 +29,18 @@ jobs:
       - name: Start containers
         run: docker compose up -d
 
+      - name: DB Wait
+        run: |
+          # Wait for the database to be ready
+          until docker exec db pg_isready -U postgres; do
+            echo "Waiting for database..."
+            sleep 2
+          done
+      
+      - name: Run migrations
+        run: |
+          ./migrate_all.sh
+
       - name: Run tests
         run: |
           ./db_tests.sh

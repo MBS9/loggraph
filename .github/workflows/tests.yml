@@ -39,7 +39,7 @@ jobs:
       
       - name: Run migrations
         run: |
-          ./migrate_all.sh
+          ./migrate_all.sh localhost 5432 postgres database
 
       - name: Run tests
         run: |

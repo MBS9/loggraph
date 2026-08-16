@@ -38,9 +38,7 @@ jobs:
           done
       
       - name: Run migrations
-        run: |
-          ./migrate_all.sh localhost 5432 postgres database
+        run: ./migrate_all.sh localhost 5432 postgres database
 
       - name: Run tests
-        run: |
-          ./db_tests.sh
+        run: ./db_tests.sh

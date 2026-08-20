@@ -23,3 +23,13 @@ ON CONFLICT DO NOTHING;
 $$;
 
 GRANT EXECUTE ON FUNCTION insert_request(TEXT, JSONB) TO loginserter;
+
+CREATE OR REPLACE FUNCTION insert_requests(requests JSONB[])
+RETURNS VOID
+LANGUAGE sql
+AS $$
+SELECT insert_request(request->>'request_hash', request->'parts')
+FROM unnest(requests) AS request;
+$$;
+
+GRANT EXECUTE ON FUNCTION insert_requests(JSONB[]) TO loginserter;

@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <curl/curl.h>
+#include <json-c/json.h>
 
 void queue_consumer();
 

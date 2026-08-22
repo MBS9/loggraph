@@ -5,6 +5,7 @@ services:
     restart: always
     ports:
       - "3000:3000"
+      - "3001:3001"
     environment:
       PGRST_DB_URI: "postgres://authenticator:password@db:5432/database"
       PGRST_DB_PRE_CONFIG: "postgrest.pre_config"
@@ -12,6 +13,7 @@ services:
       PGRST_DB_ANON_ROLE: "anon"
       PGRST_DB_SCHEMA: "public"
       PGRST_JWT_SECRET: "supersecret-jwt-secret-key-that-should-be-changed"
+      PGRST_ADMIN_SERVER_PORT: "3001"
     depends_on:
       - db
   db:

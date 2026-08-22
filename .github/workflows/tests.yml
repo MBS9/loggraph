@@ -44,3 +44,7 @@ jobs:
 
       - name: Run tests
         run: ./db_tests.sh
+      
+      - name: Stop containers
+        if: always()
+        run: docker compose down

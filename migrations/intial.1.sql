@@ -35,6 +35,10 @@ CREATE TABLE request_parts (
     unique (part_type, data)
 );
 
+CREATE INDEX idx_request_parts_non_excluded
+ON request_parts (id)
+WHERE excluded = false;
+
 CREATE TABLE request_to_parts (
     request_id UUID NOT NULL REFERENCES requests(id),
     part_id UUID NOT NULL REFERENCES request_parts(id),

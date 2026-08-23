@@ -8,6 +8,8 @@ echo "{}" > test
 echo "{\"path\": \"part1/part2/part3\"}" > test
 echo "{\"path\": \"part1/part2/part3\", \"type1\": \"other_value\"}" > test
 echo "{\"path\": \"part1/part2/\", \"type1\": \"other_value\", \"type2\": \"another_value\"}" > test
+echo "{\"path\": \"part1/part2/part3\", \"query_string\": \"hello=test&why=because\"}" > test
+echo "{\"path\": \"part1\", \"query_string\": \"hello=test\", \"headers\": \"test\"}" > test
 
 
 EXPECTED_REQUESTS=$(cat tests/requests_output.json | jq .)

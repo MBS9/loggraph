@@ -1,6 +1,14 @@
 [
   {
+    "hash": "{\"path\": \"part1\", \"query_string\": \"hello=test\", \"headers\": \"test\"}",
+    "frequency": 1
+  },
+  {
     "hash": "{\"path\": \"part1/part2/\", \"type1\": \"other_value\", \"type2\": \"another_value\"}",
+    "frequency": 1
+  },
+  {
+    "hash": "{\"path\": \"part1/part2/part3\", \"query_string\": \"hello=test&why=because\"}",
     "frequency": 1
   },
   {

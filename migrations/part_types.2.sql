@@ -4,4 +4,12 @@ INSERT INTO part_types (name, description) VALUES
 ('query_part', 'Part of the query part of the URL'),
 ('path_part', 'Part of the endpoint path of the URL'),
 ('body_part', 'Part of the body of the request'),
-('header', 'HTTP Header (User-Agent, Content-Type, etc.)');
+('header', 'HTTP Header (User-Agent, Content-Type, etc.)'),
+('user_agent', 'The user agent of the request'),
+('request_length', 'Length of the HTTP request'),
+('status_code', 'HTTP Status Code'),
+('server_protocol', 'The protocol used by the server (HTTP/1.1, HTTP/2, etc.)'),
+('server_name', 'The server name of the request'),
+('remote_addr', 'The IP address of the client making the request'),
+('accept_encoding', 'The Accept-Encoding header value of the request'),
+('content_type', 'The Content-Type header value of the request');

@@ -1,5 +1,13 @@
 [
   {
+    "data": "another_value",
+    "frequency": 1
+  },
+  {
+    "data": "other_value",
+    "frequency": 2
+  },
+  {
     "data": "part1",
     "frequency": 3
   },
@@ -9,14 +17,6 @@
   },
   {
     "data": "part3",
-    "frequency": 2
-  },
-  {
-    "data": "another_value",
-    "frequency": 1
-  },
-  {
-    "data": "other_value",
     "frequency": 2
   }
 ]

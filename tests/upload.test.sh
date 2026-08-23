@@ -1,4 +1,3 @@
-mkfifo test
 ./tests/run_sql.sh tests/cleardb.sql
 
 echo "test" > test
@@ -30,5 +29,5 @@ until [ "$REQUESTS" = "$EXPECTED_REQUESTS" ] && [ "$REQUEST_PARTS" = "$EXPECTED_
     iteration=$((iteration + 1))
     echo "Checking requests and request_parts..."
     REQUESTS=$(curl http://localhost:3000/requests | jq 'map({hash: .hash, part_count: .part_count, frequency: .frequency}) | sort_by(.hash)')
-    REQUEST_PARTS=$(curl http://localhost:3000/request_parts | jq 'map({data: .data, frequency: .frequency}) | sort_by(.part_type, .data)')
+    REQUEST_PARTS=$(curl http://localhost:3000/request_parts | jq 'map({data: .data, frequency: .frequency}) | sort_by(.data)')
 done

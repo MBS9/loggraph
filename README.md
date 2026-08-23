@@ -20,10 +20,11 @@ The PostgreSQL db will contain a view, with a write rule. New logs will be inser
 ```json
 {
     "method": "GET",
-    "timestamp": "ISO TIMESTAMP",
-    "endpoint": "/example",
+    "host": "host",
+    "path": "/example/test",
     "host": "example.org",
-    "query_string": "?hello=true",
+    "query_string": "?hello=true&example=true",
+    "headers": "Content-Type: application/json\nAccept: */*",
 }
 ```
 

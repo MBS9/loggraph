@@ -1,22 +1,18 @@
 [
   {
     "hash": "{\"path\": \"part1/part2/\", \"type1\": \"other_value\", \"type2\": \"another_value\"}",
-    "part_count": 4,
     "frequency": 1
   },
   {
     "hash": "{\"path\": \"part1/part2/part3\", \"type1\": \"other_value\"}",
-    "part_count": 4,
     "frequency": 1
   },
   {
     "hash": "{\"path\": \"part1/part2/part3\"}",
-    "part_count": 3,
     "frequency": 1
   },
   {
     "hash": "{}",
-    "part_count": 0,
     "frequency": 1
   }
 ]

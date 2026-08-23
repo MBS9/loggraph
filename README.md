@@ -40,7 +40,7 @@ Different requests may share the same request_part (for HTTP methods, they most 
 
 Endpoints and query strings will not be stored as single request_part, rather it will be split into multiple endpoint_parts/query_parts, which are stored sepperately. For exmaple: /hello/test, would be split into "hello" and "test", while "?query1=test&query2=test" would be split into "query1=test" and "query2=test".
 
-The PostgreSQL db will contain a materialized view, that represents a graph of requests. There is an edge between requests if they have at least 3 shared parts. The weight of the edge will be Jaccard index on the set of requests parts from the two requests.
+The PostgreSQL db will contain a materialized view, that represents a graph of requests. There is an edge between requests if they have at least 1 non-excluded shared parts. The weight of the edge will be Jaccard index on the set of requests parts from the two requests. Excluded parts are ignored in this calculation.
 
 The materialized view will be refreshed hourly by a cron job.
 

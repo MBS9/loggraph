@@ -1,6 +1,5 @@
 CREATE TABLE requests (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    part_count INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     last_seen_at TIMESTAMP NOT NULL DEFAULT NOW(),
     hash TEXT NOT NULL UNIQUE,
@@ -32,13 +31,14 @@ CREATE TABLE request_parts (
     data TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     frequency INT NOT NULL DEFAULT 1,
+    excluded BOOLEAN NOT NULL DEFAULT FALSE,
     unique (part_type, data)
 );
 
 CREATE TABLE request_to_parts (
     request_id UUID NOT NULL REFERENCES requests(id),
     part_id UUID NOT NULL REFERENCES request_parts(id),
-    PRIMARY KEY (request_id, part_id)
+    PRIMARY KEY (part_id, request_id)
 );
 
-CREATE INDEX idx_request_to_parts_part_id ON request_to_parts(part_id);
+CREATE INDEX idx_request_to_parts_request_id ON request_to_parts(request_id);

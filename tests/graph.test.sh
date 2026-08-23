@@ -1,9 +1,13 @@
+set -e
+
 ./tests/run_sql.sh tests/cleardb.sql
 
 curl -X POST -H "Content-Type: application/json" \
     -H "Authorization: Bearer $JWT_TOKEN" \
     -d @tests/graph.test.json \
     http://localhost:3000/rpc/insert_requests
+
+./tests/run_sql.sh tests/set_parts_excluded.sql
 
 curl -X POST -H "Content-Type: application/json" \
     -H "Authorization: Bearer $JWT_TOKEN" \

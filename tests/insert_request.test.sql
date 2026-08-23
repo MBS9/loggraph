@@ -1,15 +1,14 @@
 \set ON_ERROR_STOP true
 
-CREATE OR REPLACE FUNCTION verify_request_inserted(request_hash TEXT, expected_part_count INT, expected_parts JSONB)
+CREATE OR REPLACE FUNCTION verify_request_inserted(request_hash TEXT, expected_parts JSONB)
 RETURNS BOOLEAN
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    actual_part_count INT;
     actual_parts JSONB;
     is_valid BOOLEAN;
 BEGIN
-    SELECT part_count, jsonb_agg(jsonb_build_object('part_type', pt.name, 'data', rp.data, 'frequency', rp.frequency)) INTO actual_part_count, actual_parts
+    SELECT jsonb_agg(jsonb_build_object('part_type', pt.name, 'data', rp.data, 'frequency', rp.frequency)) INTO actual_parts
     FROM requests r
     JOIN request_to_parts rtp ON r.id = rtp.request_id
     JOIN request_parts rp ON rtp.part_id = rp.id
@@ -17,9 +16,9 @@ BEGIN
     WHERE r.hash = request_hash
     GROUP BY r.id;
 
-    is_valid := actual_part_count = expected_part_count AND actual_parts = expected_parts;
+    is_valid := actual_parts = expected_parts;
     IF NOT is_valid THEN
-        RAISE EXCEPTION 'Verification failed for request_hash: %, expected_part_count: %, actual_part_count: %, expected_parts: %, actual_parts: %', request_hash, expected_part_count, actual_part_count, expected_parts, actual_parts;
+        RAISE EXCEPTION 'Verification failed for request_hash: %, expected_parts: %, actual_parts: %', request_hash, expected_parts, actual_parts;
     END IF;
     RETURN is_valid;
 END;
@@ -61,19 +60,19 @@ SELECT insert_request('hash1', '[{"part_type": "type1", "data": "data1"}, {"part
 
 --- Verify that the request was inserted correctly ---
 
-SELECT verify_request_inserted('hash1', 3, '[{"part_type": "type1", "data": "data1", "frequency": 1}, {"part_type": "type2", "data": "data2", "frequency": 1}, {"part_type": "type3", "data": "data3", "frequency": 1}]'::jsonb);
+SELECT verify_request_inserted('hash1', '[{"part_type": "type1", "data": "data1", "frequency": 1}, {"part_type": "type2", "data": "data2", "frequency": 1}, {"part_type": "type3", "data": "data3", "frequency": 1}]'::jsonb);
 SELECT verify_frequency_increment('hash1', 1);
 
 --- insert the same request again to test frequency increment
 SELECT insert_request('hash1', '[{"part_type": "type1", "data": "data1"}, {"part_type": "type2", "data": "data2"}, {"part_type": "type3", "data": "data3"}]');
 
-SELECT verify_request_inserted('hash1', 3, '[{"part_type": "type1", "data": "data1", "frequency": 2}, {"part_type": "type2", "data": "data2", "frequency": 2}, {"part_type": "type3", "data": "data3", "frequency": 2}]'::jsonb);
+SELECT verify_request_inserted('hash1', '[{"part_type": "type1", "data": "data1", "frequency": 2}, {"part_type": "type2", "data": "data2", "frequency": 2}, {"part_type": "type3", "data": "data3", "frequency": 2}]'::jsonb);
 SELECT verify_frequency_increment('hash1', 2);
 
 --- insert different request, with some overlapping parts to test frequency increment for parts
 SELECT insert_request('hash2', '[{"part_type": "type1", "data": "data1"}, {"part_type": "type2", "data": "data2"}, {"part_type": "type3", "data": "data4"}]');
 
-SELECT verify_request_inserted('hash2', 3, '[{"part_type": "type1", "data": "data1", "frequency": 3}, {"part_type": "type2", "data": "data2", "frequency": 3}, {"part_type": "type3", "data": "data4", "frequency": 1}]'::jsonb);
+SELECT verify_request_inserted('hash2', '[{"part_type": "type1", "data": "data1", "frequency": 3}, {"part_type": "type2", "data": "data2", "frequency": 3}, {"part_type": "type3", "data": "data4", "frequency": 1}]'::jsonb);
 SELECT verify_frequency_increment('hash2', 1);
 SELECT verify_frequency_increment('hash1', 2);
 
@@ -81,4 +80,4 @@ SELECT verify_frequency_increment('hash1', 2);
 
 SELECT insert_request('hash3', '[{"part_type": "type1", "data": "unique_data1"}, {"part_type": "type1", "data": "unique_data2"}, {"part_type": "type2", "data": "data2"}]');
 
-SELECT verify_request_inserted('hash3', 3, '[{"data": "unique_data2", "frequency": 1, "part_type": "type1"}, {"data": "unique_data1", "frequency": 1, "part_type": "type1"}, {"data": "data2", "frequency": 4, "part_type": "type2"}]'::jsonb);
+SELECT verify_request_inserted('hash3', '[{"data": "unique_data2", "frequency": 1, "part_type": "type1"}, {"data": "unique_data1", "frequency": 1, "part_type": "type1"}, {"data": "data2", "frequency": 4, "part_type": "type2"}]'::jsonb);

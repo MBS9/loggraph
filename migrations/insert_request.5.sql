@@ -11,9 +11,8 @@ WITH inserted_parts AS (
     RETURNING id
 ),
 new_request AS (
-    INSERT INTO requests (hash, part_count)
-    SELECT request_hash, count(*)
-    FROM inserted_parts
+    INSERT INTO requests (hash)
+    VALUES (request_hash)
     ON CONFLICT (hash) DO UPDATE SET frequency = requests.frequency + 1
     RETURNING id
 )

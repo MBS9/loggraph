@@ -94,6 +94,8 @@ start_again:
         }
         char *copy = strdup(buffer);
 
+        copy[strcspn(copy, "\n")] = 0;
+
         pthread_mutex_lock(&queue_mutex);
         if (head == (tail + QUEUE_SIZE - 1) % QUEUE_SIZE)
         {

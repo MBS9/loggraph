@@ -2,7 +2,6 @@
 TRUNCATE TABLE request_parts CASCADE;
 TRUNCATE TABLE requests CASCADE;
 TRUNCATE TABLE request_to_parts CASCADE;
-TRUNCATE TABLE part_types CASCADE;
 --- Yayy!! Now its empty. ---
 
 --- Ensure all the needed request parts exist in the part_types table ---
@@ -15,4 +14,5 @@ INSERT INTO part_types (name, description) VALUES ('type1', 'description1'),
 ('type7', 'description7'),
 ('type8', 'description8'),
 ('type9', 'description9'),
-('type10', 'description10');
+('type10', 'description10')
+ON CONFLICT (name) DO NOTHING;

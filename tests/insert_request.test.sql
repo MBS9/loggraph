@@ -48,13 +48,13 @@ $$;
 TRUNCATE TABLE request_parts CASCADE;
 TRUNCATE TABLE requests CASCADE;
 TRUNCATE TABLE request_to_parts CASCADE;
-TRUNCATE TABLE part_types CASCADE;
 --- Yayy!! Now its empty. ---
 
 --- Ensure all the needed request parts exist in the part_types table ---
 INSERT INTO part_types (name, description) VALUES ('type1', 'description1'),
 ('type2', 'description2'),
-('type3', 'description3');
+('type3', 'description3')
+ON CONFLICT (name) DO NOTHING;
 
 --- insert a request with 3 parts ---
 SELECT insert_request('hash1', '[{"part_type": "type1", "data": "data1"}, {"part_type": "type2", "data": "data2"}, {"part_type": "type3", "data": "data3"}]');
@@ -76,3 +76,9 @@ SELECT insert_request('hash2', '[{"part_type": "type1", "data": "data1"}, {"part
 SELECT verify_request_inserted('hash2', 3, '[{"part_type": "type1", "data": "data1", "frequency": 3}, {"part_type": "type2", "data": "data2", "frequency": 3}, {"part_type": "type3", "data": "data4", "frequency": 1}]'::jsonb);
 SELECT verify_frequency_increment('hash2', 1);
 SELECT verify_frequency_increment('hash1', 2);
+
+-- same part can appear multiple times in the same request
+
+SELECT insert_request('hash3', '[{"part_type": "type1", "data": "unique_data1"}, {"part_type": "type1", "data": "unique_data2"}, {"part_type": "type2", "data": "data2"}]');
+
+SELECT verify_request_inserted('hash3', 3, '[{"data": "unique_data2", "frequency": 1, "part_type": "type1"}, {"data": "unique_data1", "frequency": 1, "part_type": "type1"}, {"data": "data2", "frequency": 4, "part_type": "type2"}]'::jsonb);

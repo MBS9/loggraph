@@ -41,6 +41,17 @@ jobs:
             echo "Waiting for API..."
             sleep 2
           done
+    
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc libcurl4-openssl-dev libjson-c-dev
+
+      - name: Build upload binary
+        run: gcc upload/main.c -lcurl -ljson-c -ggdb -o a.out
+
+      - name: Start upload service
+        run: |
+          mkfifo test
+          ./tests/run_upload.sh test &
 
       - name: Run tests
         run: ./db_tests.sh

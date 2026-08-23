@@ -1,0 +1,27 @@
+[
+  {
+    "part_type": "37e58d0d-99f9-4468-b0cd-8978608ae653",
+    "data": "part1",
+    "frequency": 3
+  },
+  {
+    "part_type": "37e58d0d-99f9-4468-b0cd-8978608ae653",
+    "data": "part2",
+    "frequency": 3
+  },
+  {
+    "part_type": "37e58d0d-99f9-4468-b0cd-8978608ae653",
+    "data": "part3",
+    "frequency": 2
+  },
+  {
+    "part_type": "c8897f1d-1807-4f26-8cd3-370efb0546d4",
+    "data": "another_value",
+    "frequency": 1
+  },
+  {
+    "part_type": "f6a1a8e5-999d-4b41-937b-ea4c04b1c61c",
+    "data": "other_value",
+    "frequency": 2
+  }
+]

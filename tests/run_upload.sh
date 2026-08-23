@@ -1,0 +1,1 @@
+UPLOAD_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoibG9naW5zZXJ0ZXIifQ.9W8b7OpTmd_CNB05yM1Y9k_sQo_xwgSh60CUW-RRGSI UPLOAD_ENDPOINT=http://localhost:3000/rpc/insert_request ./a.out $1

@@ -24,7 +24,8 @@ log_format json_analytics escape=json '{'
     '"remote_addr":"$remote_addr",'
     '"query_string":"$args",'
     '"accept_encoding":"$http_accept_encoding",'
-    '"content_type":"$http_content_type"'
+    '"content_type":"$http_content_type",'
+    '"scheme":"$scheme"'
 '}';
 
 access_log /var/log/nginx/access_json json_analytics;

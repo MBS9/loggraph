@@ -12,4 +12,5 @@ INSERT INTO part_types (name, description) VALUES
 ('server_name', 'The server name of the request'),
 ('remote_addr', 'The IP address of the client making the request'),
 ('accept_encoding', 'The Accept-Encoding header value of the request'),
-('content_type', 'The Content-Type header value of the request');
+('content_type', 'The Content-Type header value of the request'),
+('scheme', 'The scheme of the request (http, https, etc.)');

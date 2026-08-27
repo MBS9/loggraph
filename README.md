@@ -15,6 +15,7 @@ In your nginx config, set the log format to include all fields in JSON format:
 log_format json_analytics escape=json '{'
     '"method":"$request_method",'
     '"host":"$host",'
+    '"path":"$uri",'
     '"user_agent":"$http_user_agent",'
     '"request_length":$request_length,'
     '"status_code":$status,'

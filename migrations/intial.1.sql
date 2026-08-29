@@ -15,7 +15,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_last_seen_at
-AFTER UPDATE ON requests
+BEFORE UPDATE ON requests
 FOR EACH ROW
 EXECUTE FUNCTION update_last_seen_at();
 

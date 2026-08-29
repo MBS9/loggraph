@@ -1,2 +1,4 @@
 *.out
 server.py
+explain.txt
+seed.sql

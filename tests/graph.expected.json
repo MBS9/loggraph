@@ -1,17 +1,11 @@
 [
   {
-    "request_1": "1",
-    "request_2": "3",
     "jaccard_index": 0.125
   },
   {
-    "request_1": "1",
-    "request_2": "4",
     "jaccard_index": 0.125
   },
   {
-    "request_1": "3",
-    "request_2": "4",
     "jaccard_index": 0.6
   }
 ]

@@ -1,3 +1,11 @@
+CREATE TABLE loggraph_config (
+    id SERIAL PRIMARY KEY,
+    key TEXT NOT NULL,
+    value TEXT NOT NULL
+);
+
+INSERT INTO loggraph_config (key, value) VALUES ('min_jaccard_index', '0.2');
+
 DROP MATERIALIZED VIEW IF EXISTS graph_view;
 CREATE MATERIALIZED VIEW IF NOT EXISTS graph_view AS
 WITH shared_parts AS (
@@ -18,19 +26,22 @@ non_excluded_parts AS (
     JOIN request_parts rp ON rtp.part_id = rp.id
     WHERE rp.excluded = FALSE
     GROUP BY r.id
+),
+full_graph AS (
+    SELECT sp.request_1 AS request_1,
+        sp.request_2 AS request_2,
+        sp.shared_parts_count::float / (
+            nep1.non_excluded_count + nep2.non_excluded_count - sp.shared_parts_count
+        )::float AS jaccard_index
+    FROM shared_parts sp
+    JOIN non_excluded_parts nep1 ON sp.request_1 = nep1.request_id
+    JOIN non_excluded_parts nep2 ON sp.request_2 = nep2.request_id
 )
-SELECT r1.hash AS request_1,
-    r2.hash AS request_2,
-    sp.shared_parts_count::float / (
-        nep1.non_excluded_count + nep2.non_excluded_count - sp.shared_parts_count
-    )::float AS jaccard_index
-FROM shared_parts sp
-JOIN requests r1 ON sp.request_1 = r1.id
-JOIN non_excluded_parts nep1 ON sp.request_1 = nep1.request_id
-JOIN requests r2 ON sp.request_2 = r2.id
-JOIN non_excluded_parts nep2 ON sp.request_2 = nep2.request_id;
+SELECT * FROM full_graph
+WHERE jaccard_index > (SELECT value::float FROM loggraph_config WHERE key = 'min_jaccard_index');
 
 CREATE UNIQUE INDEX idx_graph_view_request_1_request_2 ON graph_view(request_1, request_2);
+CREATE INDEX idx_graph_view_jaccard_index ON graph_view(jaccard_index);
 
 GRANT SELECT ON graph_view TO anon;
 

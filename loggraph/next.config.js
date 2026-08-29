@@ -1,27 +1,27 @@
-const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin")
-const path = require("path")
-const { PHASE_DEVELOPMENT_SERVER } = require("next/constants")
-const { env } = require("process")
-const { execSync } = require("child_process")
+const WasmPackPlugin = require('@wasm-tool/wasm-pack-plugin')
+const path = require('path')
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
+const { env } = require('process')
+const { execSync } = require('child_process')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-  basePath: env.NEXT_PUBLIC_BASE_PATH || "",
+  output: 'export',
+  basePath: env.NEXT_PUBLIC_BASE_PATH || '',
   env: {
-    GIT_COMMIT_ID: execSync("git rev-parse HEAD").toString().trim(),
+    GIT_COMMIT_ID: execSync('git rev-parse HEAD').toString().trim(),
   },
   compiler: {
     removeConsole: {
-      exclude: ["error"],
+      exclude: ['error'],
     },
   },
   webpack: (config, options) => {
     if (!options.isServer || options.dev === false) {
       config.plugins.push(
         new WasmPackPlugin({
-          crateDirectory: path.join(__dirname, "../wasm"),
-          extraArgs: "--target web",
+          crateDirectory: path.join(__dirname, '../wasm'),
+          extraArgs: '--target web',
         }),
       )
       config.output.environment = { ...config.output.environment, asyncFunction: true }

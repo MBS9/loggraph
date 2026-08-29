@@ -1,8 +1,8 @@
-"use client"
-import styles from "./page.module.css"
-import * as Wasm from "wasm"
-import React from "react"
-import { Typography } from "@mui/material"
+'use client'
+import styles from './page.module.css'
+import * as Wasm from 'wasm'
+import React from 'react'
+import { Typography, AppBar, Toolbar } from '@mui/material'
 
 export default function Home() {
   React.useEffect(() => {
@@ -10,9 +10,18 @@ export default function Home() {
   }, [])
   return (
     <div>
-      <header>
-        <Typography variant='h1'>Loggraph</Typography>
-      </header>
+      <AppBar component='header' position='static'>
+        <Toolbar sx={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          flexDirection: 'row',
+        }}>
+          <Typography variant='h1'>Loggraph</Typography>
+        </Toolbar>
+      </AppBar>
+      <main>
+        <Typography variant='body1'>Welcome to Loggraph!</Typography>
+      </main>
     </div>
   )
 }

@@ -12,12 +12,6 @@ pub struct GraphEdge {
     jaccard_index: f64,
 }
 
-#[derive(Serialize)]
-pub struct GraphClustering {
-    labels: Vec<usize>,
-    n_clusters: usize,
-}
-
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
@@ -27,7 +21,7 @@ extern "C" {
 type GraphEdges = Vec<GraphEdge>;
 
 #[wasm_bindgen]
-pub fn louvain(json: JsValue) -> Result<JsValue, JsValue> {
+pub fn cluster(json: JsValue) -> Result<JsValue, JsValue> {
     let js_edges: GraphEdges = serde_wasm_bindgen::from_value(json)
         .map_err(|e| JsValue::from_str(&format!("Invalid input JSON: {e}")))?;
 
@@ -54,13 +48,11 @@ pub fn louvain(json: JsValue) -> Result<JsValue, JsValue> {
     let clustering = leiden(&network, &config)
         .map_err(|e| JsValue::from_str(&format!("Failed to cluster graph: {e}")))?;
 
-    let payload = GraphClustering {
-        labels: clustering.labels().to_vec(),
-        n_clusters: clustering.n_clusters(),
-    };
+    let mut clusters = clustering.clusters();
+    clusters.sort_by(|cluster1, cluster2| cluster2.len().cmp(&cluster1.len()));
 
-    serde_wasm_bindgen::to_value(&payload)
-        .map_err(|e| JsValue::from_str(&format!("Failed to serialize result: {e}")))
+    Ok(serde_wasm_bindgen::to_value(&clusters)
+        .map_err(|e| JsValue::from_str(&format!("Failed to serialize result: {e}")))?)
 }
 
 #[wasm_bindgen(start)]

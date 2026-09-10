@@ -48,10 +48,7 @@ pub fn cluster(json: JsValue) -> Result<JsValue, JsValue> {
     let clustering = leiden(&network, &config)
         .map_err(|e| JsValue::from_str(&format!("Failed to cluster graph: {e}")))?;
 
-    let mut clusters = clustering.clusters();
-    clusters.sort_by(|cluster1, cluster2| cluster2.len().cmp(&cluster1.len()));
-
-    Ok(serde_wasm_bindgen::to_value(&clusters)
+    Ok(serde_wasm_bindgen::to_value(&clustering.clusters())
         .map_err(|e| JsValue::from_str(&format!("Failed to serialize result: {e}")))?)
 }
 

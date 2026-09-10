@@ -8,6 +8,7 @@ const { execSync } = require('child_process')
 const nextConfig = {
   output: 'export',
   basePath: env.NEXT_PUBLIC_BASE_PATH || '',
+  allowedDevOrigins: ['*'],
   env: {
     GIT_COMMIT_ID: execSync('git rev-parse HEAD').toString().trim(),
   },

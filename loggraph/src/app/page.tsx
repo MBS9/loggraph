@@ -2,7 +2,9 @@
 import styles from './page.module.css'
 import * as Wasm from 'wasm'
 import React from 'react'
-import { Typography, AppBar, Toolbar, Paper, Grid } from '@mui/material'
+import { Typography, AppBar, Toolbar, Paper, Grid, Pagination } from '@mui/material'
+
+const ITEMS_PER_PAGE = 12
 
 type Request = {
   ext_id: string
@@ -15,40 +17,88 @@ function runClustering(graph: unknown) {
 
 function findRequestHash(requests: Request[], extId: string) {
   if (!Array.isArray(requests)) return null
-  return requests.find((request: any) => request.ext_id === extId)?.hash ?? null
+  return requests[parseInt(extId, 0)].hash ?? null
 }
 
 export default function Home() {
   const [wasmLoaded, setWasmLoaded] = React.useState(false)
+  const [processedClusters, setProcessedClusters] = React.useState<(string | null)[][] | null>(null)
+  const [page, setPage] = React.useState(1)
+  const [loadError, setLoadError] = React.useState<string | null>(null)
+  const graphUrl = process.env.NEXT_PUBLIC_GRAPH_URL
+  const requestsUrl = process.env.NEXT_PUBLIC_REQUESTS_URL
+
   React.useEffect(() => {
     Wasm.default().then(() => setWasmLoaded(true))
   }, [])
-  const [graph, setGraph] = React.useState<unknown>(null)
-  const [requests, setRequests] = React.useState<Request[] | null>(null)
   React.useEffect(() => {
-    const request = fetch(process.env.NEXT_PUBLIC_GRAPH_URL as string)
-    request.then(response => response.json()).then(data => setGraph(data)).catch(error => console.error(error))
-
-    const requestsRequest = fetch(process.env.NEXT_PUBLIC_REQUESTS_URL as string)
-    requestsRequest.then(response => response.json()).then(data => setRequests(data)).catch(error => console.error(error))
-  }, [wasmLoaded])
-
-  const clusters = React.useMemo(() => {
-    if (graph && wasmLoaded) {
-      return runClustering(graph) as number[][]
+    if (!graphUrl || !requestsUrl || !wasmLoaded) {
+      return
     }
-    return null
-  }, [wasmLoaded, graph])
 
-  const processedClusters = React.useMemo(() => {
-    if (clusters && Array.isArray(clusters) && requests && Array.isArray(requests)) {
-      return clusters.slice(0, 100).map((cluster: number[]) => cluster.map((node: number) => {
-        const request = findRequestHash(requests, node.toString())
-        return request
-      }))
+    const abortController = new AbortController()
+
+    Promise.all([
+      fetch(graphUrl, { signal: abortController.signal }).then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch graph: ${response.status}`)
+        }
+        return response.json()
+      })
+        .then(data => runClustering(data) as number[][]),
+      fetch(requestsUrl, { signal: abortController.signal }).then(response => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch requests: ${response.status}`)
+        }
+        return response.json()
+      }),
+    ])
+      .then(([clusters, requestsData]) => {
+        const processed = clusters.map((cluster: number[]) => cluster.map((node: number) => {
+          const request = findRequestHash(requestsData, node.toString())
+          return request
+        }))
+        setProcessedClusters(processed)
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        setLoadError(error instanceof Error ? error.message : 'Unknown fetch error')
+      })
+
+    return () => {
+      abortController.abort()
     }
-    return null
-  }, [requests, clusters])
+  }, [graphUrl, requestsUrl, wasmLoaded])
+
+  const pageStart = (page - 1) * ITEMS_PER_PAGE
+  const pageEnd = Math.min(pageStart + ITEMS_PER_PAGE, processedClusters?.length ?? 0)
+
+  const pageClusterCards = React.useMemo(() => {
+    if (!processedClusters) return null
+
+    const cards: React.ReactElement[] = []
+    for (let i = pageStart; i < pageEnd; i++) {
+      const cluster = processedClusters[i]
+      if (!cluster) continue
+
+      cards.push(
+        <Grid key={i}>
+          <Paper variant='outlined' sx={{ height: '30vh', width: '21vw', overflow: 'scroll' }}>
+            <Typography variant='h6' component="h2">
+              Cluster {i + 1}
+            </Typography>
+            {cluster.map((node, nodeIndex) => (
+              <Typography key={nodeIndex} variant='body2' sx={{ overflow: 'wrap', wordBreak: 'break-word' }}>
+                {node}
+              </Typography>
+            ))}
+          </Paper>
+        </Grid>,
+      )
+    }
+
+    return cards
+  }, [processedClusters, pageStart, pageEnd])
 
   return (
     <div>
@@ -61,26 +111,14 @@ export default function Home() {
           <Typography variant='h1'>Loggraph</Typography>
         </Toolbar>
       </AppBar>
-      <main>
+      <main style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <Typography variant='body1'>Welcome to Loggraph!</Typography>
-        <Grid container sx={{ gap: '1rem', justifyContent: 'space-around', alignItems: 'space-around' }}>
-          {processedClusters && (
-            processedClusters.slice(0, 50).map((cluster, index) => (
-              <Grid key={index}>
-                <Paper variant='outlined' sx={{ height: '30vh', width: '21vw', overflow: 'scroll' }}>
-                  <Typography variant='h6' component="h2">
-                    Cluster {index + 1}
-                  </Typography>
-                  {cluster.map((node, nodeIndex) => (
-                    <Typography key={nodeIndex} variant='body2' sx={{ overflow: 'wrap', wordBreak: 'break-word' }}>
-                      Node {node ?? 'N/A'}
-                    </Typography>
-                  ))}
-                </Paper>
-              </Grid>
-            ))
-          )}
+        {(loadError) && <Typography color='error'>{loadError}</Typography>}
+        {!processedClusters && <Typography variant='body2'>Please wait while the clusters are being processed...</Typography>}
+        <Grid key={page} container sx={{ gap: '1rem', justifyContent: 'space-around', alignItems: 'space-around' }}>
+          {pageClusterCards}
         </Grid>
+        <Pagination sx={{ alignSelf: 'center', flexGrow: 1 }} count={Math.ceil((processedClusters?.length ?? 0) / ITEMS_PER_PAGE)} page={page} onChange={(_, value) => setPage(value)} />
       </main>
     </div>
   )

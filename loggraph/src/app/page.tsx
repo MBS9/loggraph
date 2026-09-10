@@ -2,7 +2,7 @@
 import styles from './page.module.css'
 import * as Wasm from 'wasm'
 import React from 'react'
-import { Typography, AppBar, Toolbar, Paper, Grid, Pagination } from '@mui/material'
+import { Typography, AppBar, Toolbar, Paper, Grid, Pagination, Divider } from '@mui/material'
 
 const ITEMS_PER_PAGE = 12
 
@@ -88,9 +88,12 @@ export default function Home() {
               Cluster {i + 1}
             </Typography>
             {cluster.map((node, nodeIndex) => (
-              <Typography key={nodeIndex} variant='body2' sx={{ overflow: 'wrap', wordBreak: 'break-word' }}>
-                {node}
-              </Typography>
+              <React.Fragment key={nodeIndex}>
+                <Divider key={`divider-${nodeIndex}`} />
+                <Typography variant='body2' sx={{ overflow: 'wrap', wordBreak: 'break-word' }}>
+                  {node}
+                </Typography>
+              </React.Fragment>
             ))}
           </Paper>
         </Grid>,
@@ -111,8 +114,7 @@ export default function Home() {
           <Typography variant='h1'>Loggraph</Typography>
         </Toolbar>
       </AppBar>
-      <main style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <Typography variant='body1'>Welcome to Loggraph!</Typography>
+      <main style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem' }}>
         {(loadError) && <Typography color='error'>{loadError}</Typography>}
         {!processedClusters && <Typography variant='body2'>Please wait while the clusters are being processed...</Typography>}
         <Grid key={page} container sx={{ gap: '1rem', justifyContent: 'space-around', alignItems: 'space-around' }}>

@@ -28,12 +28,14 @@ non_excluded_parts AS (
     GROUP BY r.id
 ),
 full_graph AS (
-    SELECT sp.request_1 AS request_1,
-        sp.request_2 AS request_2,
+    SELECT r1.ext_id AS request_1,
+        r2.ext_id AS request_2,
         sp.shared_parts_count::float / (
             nep1.non_excluded_count + nep2.non_excluded_count - sp.shared_parts_count
         )::float AS jaccard_index
     FROM shared_parts sp
+    JOIN requests r1 ON sp.request_1 = r1.id
+    JOIN requests r2 ON sp.request_2 = r2.id
     JOIN non_excluded_parts nep1 ON sp.request_1 = nep1.request_id
     JOIN non_excluded_parts nep2 ON sp.request_2 = nep2.request_id
 )

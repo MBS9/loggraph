@@ -38,11 +38,10 @@ jobs:
       - name: Build with Next.js
         working-directory: ./loggraph
         env:
-          NODE_ENV: production
           NEXT_PUBLIC_GRAPH_URL: ${{ secrets.NEXT_PUBLIC_GRAPH_URL }}
           NEXT_PUBLIC_REQUESTS_URL: ${{ secrets.NEXT_PUBLIC_REQUESTS_URL }}
         run: |
-          npm ci
+          npm ci --include=dev
           npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

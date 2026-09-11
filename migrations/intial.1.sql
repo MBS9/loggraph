@@ -7,6 +7,8 @@ CREATE TABLE requests (
     frequency INT NOT NULL DEFAULT 1
 );
 
+CREATE UNIQUE INDEX idx_requests_ext_id ON requests(ext_id);
+
 CREATE OR REPLACE FUNCTION update_last_seen_at()
 RETURNS TRIGGER AS $$
 BEGIN

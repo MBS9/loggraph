@@ -17,7 +17,7 @@ function runClustering(graph: unknown) {
 
 function findRequestHash(requests: Request[], extId: string) {
   if (!Array.isArray(requests)) return null
-  return requests[parseInt(extId, 1) - 1].hash ?? null
+  return requests[parseInt(extId, 1) - 1]?.hash ?? null
 }
 
 export default function Home() {

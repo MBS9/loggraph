@@ -7,7 +7,7 @@ import { Typography, AppBar, Toolbar, Paper, Grid, Pagination, Divider } from '@
 const ITEMS_PER_PAGE = 12
 
 type Request = {
-  ext_id: string
+  ext_id: number
   hash: string
 }
 
@@ -15,9 +15,22 @@ function runClustering(graph: unknown) {
   return Wasm.cluster(graph)
 }
 
-function findRequestHash(requests: Request[], extId: string) {
+function findRequestHash(requests: Request[], extId: number) {
   if (!Array.isArray(requests)) return null
-  return requests[parseInt(extId, 1) - 1]?.hash ?? null
+  let top = 0
+  let bottom = requests.length - 1
+  while (top <= bottom) {
+    const mid = Math.floor((top + bottom) / 2)
+    const midExtId = requests[mid].ext_id
+    if (midExtId === extId) {
+      return requests[mid].hash
+    } else if (midExtId < extId) {
+      top = mid + 1
+    } else {
+      bottom = mid - 1
+    }
+  }
+  return null
 }
 
 export default function Home() {
@@ -55,7 +68,7 @@ export default function Home() {
     ])
       .then(([clusters, requestsData]) => {
         const processed = clusters.map((cluster: number[]) => cluster.map((node: number) => {
-          const request = findRequestHash(requestsData, node.toString())
+          const request = findRequestHash(requestsData, node)
           return request
         }))
         setProcessedClusters(processed)
@@ -79,7 +92,8 @@ export default function Home() {
     const cards: React.ReactElement[] = []
     for (let i = pageStart; i < pageEnd; i++) {
       const cluster = processedClusters[i]
-      if (!cluster) continue
+      const nonEmpty = cluster.filter(node => node)
+      if (!nonEmpty.length) continue
 
       cards.push(
         <Grid key={i}>
@@ -87,7 +101,7 @@ export default function Home() {
             <Typography variant='h6' component="h2">
               Cluster {i + 1}
             </Typography>
-            {cluster.map((node, nodeIndex) => (
+            {nonEmpty.map((node, nodeIndex) => (
               <React.Fragment key={nodeIndex}>
                 <Divider key={`divider-${nodeIndex}`} />
                 <Typography variant='body2' sx={{ overflow: 'wrap', wordBreak: 'break-word' }}>

@@ -43,7 +43,7 @@ jobs:
           NEXT_PUBLIC_REQUESTS_URL: ${{ secrets.NEXT_PUBLIC_REQUESTS_URL }}
         run: |
           npm ci
-          npm run build
+          npx next build --webpack
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

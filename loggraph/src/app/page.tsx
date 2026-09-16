@@ -11,8 +11,22 @@ type Request = {
   hash: string
 }
 
+interface Cluster {
+  heterogeneity_score: number
+  nodes: number[]
+}
+
+interface ProcessedCluster {
+  nodes: (string | null)[]
+  heterogeneity_score: number
+}
+
 function runClustering(graph: unknown) {
-  return Wasm.cluster(graph)
+  const startTime = performance.now()
+  const cluster = Wasm.cluster(graph) as Cluster[]
+  const endTime = performance.now()
+  console.info(`WASM clustering took ${endTime - startTime} ms`)
+  return cluster
 }
 
 function findRequestHash(requests: Request[], extId: number) {
@@ -35,7 +49,7 @@ function findRequestHash(requests: Request[], extId: number) {
 
 export default function Home() {
   const [wasmLoaded, setWasmLoaded] = React.useState(false)
-  const [processedClusters, setProcessedClusters] = React.useState<(string | null)[][] | null>(null)
+  const [processedClusters, setProcessedClusters] = React.useState<ProcessedCluster[] | null>(null)
   const [page, setPage] = React.useState(1)
   const [loadError, setLoadError] = React.useState<string | null>(null)
   const graphUrl = process.env.NEXT_PUBLIC_GRAPH_URL
@@ -58,7 +72,7 @@ export default function Home() {
         }
         return response.json()
       })
-        .then(data => runClustering(data) as number[][]),
+        .then(data => runClustering(data)),
       fetch(requestsUrl, { signal: abortController.signal }).then(response => {
         if (!response.ok) {
           throw new Error(`Failed to fetch requests: ${response.status}`)
@@ -67,11 +81,17 @@ export default function Home() {
       }),
     ])
       .then(([clusters, requestsData]) => {
-        const processed = clusters.map((cluster: number[]) => cluster.map((node: number) => {
-          const request = findRequestHash(requestsData, node)
-          return request
+        const now = performance.now()
+        const processed = clusters.map((cluster) => ({
+          nodes: cluster.nodes.map((node) => {
+            const request = findRequestHash(requestsData, node)
+            return request
+          }),
+          heterogeneity_score: cluster.heterogeneity_score,
         }))
-        setProcessedClusters(processed)
+        setProcessedClusters(processed.filter(cluster => cluster.nodes.some(node => node !== null)))
+        const endTime = performance.now()
+        console.info(`JS processing took ${endTime - now} ms`)
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === 'AbortError') return
@@ -92,14 +112,14 @@ export default function Home() {
     const cards: React.ReactElement[] = []
     for (let i = pageStart; i < pageEnd; i++) {
       const cluster = processedClusters[i]
-      const nonEmpty = cluster.filter(node => node)
+      const nonEmpty = cluster.nodes.filter(node => node)
       if (!nonEmpty.length) continue
 
       cards.push(
         <Grid key={i}>
           <Paper variant='outlined' sx={{ height: '30vh', width: '21vw', overflow: 'scroll' }}>
             <Typography variant='h6' component="h2">
-              Cluster {i + 1}
+              Score: {cluster.heterogeneity_score.toFixed(4)}
             </Typography>
             {nonEmpty.map((node, nodeIndex) => (
               <React.Fragment key={nodeIndex}>

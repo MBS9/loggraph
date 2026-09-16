@@ -14,7 +14,7 @@ const nextConfig = {
   },
   compiler: {
     removeConsole: {
-      exclude: ['error'],
+      exclude: ['error', 'info', 'warn'],
     },
   },
   webpack: (config, options) => {

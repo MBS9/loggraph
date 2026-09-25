@@ -17,7 +17,8 @@
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "wasm": "file:../wasm/pkg"
+    "wasm": "file:../wasm/pkg",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

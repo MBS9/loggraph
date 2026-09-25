@@ -3,9 +3,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 const theme = createTheme({
   cssVariables: true,
-  palette: {
-    mode: 'dark',
-  },
   typography: {
     h1: {
       fontSize: '2rem',

@@ -1,161 +1,88 @@
 'use client'
-import styles from './page.module.css'
-import * as Wasm from 'wasm'
-import React from 'react'
-import { Typography, AppBar, Toolbar, Paper, Grid, Pagination, Divider } from '@mui/material'
+import { ConfigurationForm, useConfiguration } from './configuration'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import Analysis from './analysis'
+import { Button, CircularProgress, Stack, Typography } from '@mui/material'
+import type { Configuration, ProcessedCluster } from './types'
+import { workerMessageSchema } from './schemas'
 
-const ITEMS_PER_PAGE = 12
 
-type Request = {
-  ext_id: number
-  hash: string
-}
+export default function Page() {
+  const [processedClusters, setProcessedClusters] = useState<ProcessedCluster[] | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [currentStatus, setCurrentStatus] = useState<string | null>(null)
+  const [currentPercent, setCurrentPercent] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false)
+  const worker = useRef<Worker | null>(null)
 
-interface Cluster {
-  heterogeneity_score: number
-  nodes: number[]
-}
+  const showResult = processedClusters && processedClusters.length > 0
 
-interface ProcessedCluster {
-  nodes: (string | null)[]
-  heterogeneity_score: number
-}
-
-function runClustering(graph: unknown) {
-  const startTime = performance.now()
-  const cluster = Wasm.cluster(graph) as Cluster[]
-  const endTime = performance.now()
-  console.info(`WASM clustering took ${endTime - startTime} ms`)
-  return cluster
-}
-
-function findRequestHash(requests: Request[], extId: number) {
-  if (!Array.isArray(requests)) return null
-  let top = 0
-  let bottom = requests.length - 1
-  while (top <= bottom) {
-    const mid = Math.floor((top + bottom) / 2)
-    const midExtId = requests[mid].ext_id
-    if (midExtId === extId) {
-      return requests[mid].hash
-    } else if (midExtId < extId) {
-      top = mid + 1
-    } else {
-      bottom = mid - 1
-    }
-  }
-  return null
-}
-
-export default function Home() {
-  const [wasmLoaded, setWasmLoaded] = React.useState(false)
-  const [processedClusters, setProcessedClusters] = React.useState<ProcessedCluster[] | null>(null)
-  const [page, setPage] = React.useState(1)
-  const [loadError, setLoadError] = React.useState<string | null>(null)
-  const graphUrl = process.env.NEXT_PUBLIC_GRAPH_URL
-  const requestsUrl = process.env.NEXT_PUBLIC_REQUESTS_URL
-
-  React.useEffect(() => {
-    Wasm.default().then(() => setWasmLoaded(true))
+  const onSubmit = useCallback((form: Configuration) => {
+    setLoading(true)
+    setLoadError(null)
+    setProcessedClusters(null)
+    worker.current?.postMessage({ graphUrl: form.graphUrl, requestsUrl: form.requestUrl })
   }, [])
-  React.useEffect(() => {
-    if (!graphUrl || !requestsUrl || !wasmLoaded) {
-      return
+
+  const form = useConfiguration({
+    resolution: 1,
+    maxHeterogeneityScore: 0.7,
+    graphUrl: process.env.NEXT_PUBLIC_GRAPH_URL as string,
+    requestUrl: process.env.NEXT_PUBLIC_REQUESTS_URL as string,
+  }, onSubmit)
+
+  useEffect(() => {
+    worker.current = new Worker(new URL('./worker.ts', import.meta.url))
+    worker.current.onmessage = (event) => {
+      const parsed = workerMessageSchema.parse(event.data)
+      if (parsed.type === 'status_update') {
+        setCurrentStatus(parsed.status)
+        setCurrentPercent(parsed.percent ?? null)
+      } else if (parsed.type === 'processed_clusters') {
+        setProcessedClusters(parsed.clusters)
+        setLoading(false)
+        setCurrentStatus(null)
+      } else if (parsed.type === 'error') {
+        setLoadError(parsed.error)
+      }
+      setLoading(false)
     }
-
-    const abortController = new AbortController()
-
-    Promise.all([
-      fetch(graphUrl, { signal: abortController.signal }).then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch graph: ${response.status}`)
-        }
-        return response.json()
-      })
-        .then(data => runClustering(data)),
-      fetch(requestsUrl, { signal: abortController.signal }).then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch requests: ${response.status}`)
-        }
-        return response.json()
-      }),
-    ])
-      .then(([clusters, requestsData]) => {
-        const now = performance.now()
-        const processed = clusters.map((cluster) => ({
-          nodes: cluster.nodes.map((node) => {
-            const request = findRequestHash(requestsData, node)
-            return request
-          }),
-          heterogeneity_score: cluster.heterogeneity_score,
-        }))
-        setProcessedClusters(processed.filter(cluster => cluster.nodes.some(node => node !== null)))
-        const endTime = performance.now()
-        console.info(`JS processing took ${endTime - now} ms`)
-      })
-      .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === 'AbortError') return
-        setLoadError(error instanceof Error ? error.message : 'Unknown fetch error')
-      })
-
     return () => {
-      abortController.abort()
+      worker.current?.terminate()
     }
-  }, [graphUrl, requestsUrl, wasmLoaded])
-
-  const pageStart = (page - 1) * ITEMS_PER_PAGE
-  const pageEnd = Math.min(pageStart + ITEMS_PER_PAGE, processedClusters?.length ?? 0)
-
-  const pageClusterCards = React.useMemo(() => {
-    if (!processedClusters) return null
-
-    const cards: React.ReactElement[] = []
-    for (let i = pageStart; i < pageEnd; i++) {
-      const cluster = processedClusters[i]
-      const nonEmpty = cluster.nodes.filter(node => node)
-      if (!nonEmpty.length) continue
-
-      cards.push(
-        <Grid key={i}>
-          <Paper variant='outlined' sx={{ height: '30vh', width: '21vw', overflow: 'scroll' }}>
-            <Typography variant='h6' component="h2">
-              Score: {cluster.heterogeneity_score.toFixed(4)}
-            </Typography>
-            {nonEmpty.map((node, nodeIndex) => (
-              <React.Fragment key={nodeIndex}>
-                <Divider key={`divider-${nodeIndex}`} />
-                <Typography variant='body2' sx={{ overflow: 'wrap', wordBreak: 'break-word' }}>
-                  {node}
-                </Typography>
-              </React.Fragment>
-            ))}
-          </Paper>
-        </Grid>,
-      )
-    }
-
-    return cards
-  }, [processedClusters, pageStart, pageEnd])
+  }, [form.configuration.graphUrl, form.configuration.requestUrl])
 
   return (
-    <div>
-      <AppBar component='header' position='static'>
-        <Toolbar sx={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          flexDirection: 'row',
-        }}>
-          <Typography variant='h1'>Loggraph</Typography>
-        </Toolbar>
-      </AppBar>
-      <main style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem' }}>
-        {(loadError) && <Typography color='error'>{loadError}</Typography>}
-        {!processedClusters && <Typography variant='body2'>Please wait while the clusters are being processed...</Typography>}
-        <Grid key={page} container sx={{ gap: '1rem', justifyContent: 'space-around', alignItems: 'space-around' }}>
-          {pageClusterCards}
-        </Grid>
-        <Pagination sx={{ alignSelf: 'center', flexGrow: 1 }} count={Math.ceil((processedClusters?.length ?? 0) / ITEMS_PER_PAGE)} page={page} onChange={(_, value) => setPage(value)} />
-      </main>
-    </div>
+    <>
+      {showResult && <Analysis processedClusters={processedClusters ?? []} />}
+      {!showResult && (
+        <>
+          <header>
+            <Typography variant="h4" component="h1" sx={{ textAlign: 'center' }}>Loggraph</Typography>
+          </header>
+          <ConfigurationForm
+            configuration={form.configuration}
+            onChange={form.onChange}
+            onSubmit={form.onSubmit}
+          >
+            {(submit: () => void) => (
+              <>
+                <Stack direction="row" spacing={2}>
+                  <Button variant='contained' onClick={submit}>Build clusters</Button>
+                  {loading &&
+                    <CircularProgress value={currentPercent ?? undefined} />}
+                </Stack>
+                {loading && currentStatus && (
+                  <Typography>Status: {currentStatus}</Typography>
+                )}
+                {loadError && (
+                  <Typography color="error">Error: {loadError}</Typography>
+                )}
+              </>
+            )}
+          </ConfigurationForm>
+        </>
+      )}
+    </>
   )
 }

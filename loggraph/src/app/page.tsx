@@ -49,6 +49,7 @@ export default function Page() {
     }
     return () => {
       worker.current?.terminate()
+      worker.current = null
     }
   }, [form.configuration.graphUrl, form.configuration.requestUrl])
 
@@ -68,9 +69,10 @@ export default function Page() {
             {(submit: () => void) => (
               <>
                 <Stack direction="row" spacing={2}>
-                  <Button variant='contained' onClick={submit} disabled={worker.current != null || loading}>Build clusters</Button>
+                  <Button variant='contained' onClick={submit} disabled={loading}>Build clusters</Button>
                   {loading &&
-                    <CircularProgress value={currentPercent ?? undefined} variant={currentPercent ? 'determinate' : 'indeterminate'} />}
+                    <CircularProgress value={currentPercent ?? undefined} variant={currentPercent ? 'determinate' : 'indeterminate'} />
+                  }
                 </Stack>
                 {loading && currentStatus && (
                   <Typography>Status: {currentStatus}</Typography>

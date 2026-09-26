@@ -1,5 +1,4 @@
 import * as Wasm from 'wasm'
-import type { ProcessedCluster } from './types'
 import { WorkerMessageSchema } from './schemas'
 
 type Request = {
@@ -65,7 +64,9 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
         xhr.onprogress = (event) => {
           if (event.lengthComputable) {
             const percent = (event.loaded / event.total) * 100
-            sendMessage({ type: 'status_update', status: 'fetching_graph', percent })
+            sendMessage({ type: 'status_update', status: 'Fetching graph...', percent })
+          } else {
+            sendMessage({ type: 'status_update', status: 'Fetching graph... ' + Number((event.loaded / 1_000_000).toFixed(2)) + ' MB loaded' })
           }
         }
         abortController.signal.addEventListener('abort', () => {
@@ -73,11 +74,11 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
           sendMessage({ type: 'status_update', status: 'aborted', percent: 0 })
           reject(new Error('Fetch aborted'))
         })
-        sendMessage({ type: 'status_update', status: 'fetching_graph' })
+        sendMessage({ type: 'status_update', status: 'Fetching graph...' })
         xhr.send()
       })
         .then(data => {
-          sendMessage({ type: 'status_update', status: 'clustering' })
+          sendMessage({ type: 'status_update', status: 'Clustering...' })
           return runClustering(data)
         }),
       fetch(requestsUrl, { signal: abortController.signal }).then(response => {
@@ -88,7 +89,7 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
       }),
     ])
 
-    sendMessage({ type: 'status_update', status: 'processing_clusters' })
+    sendMessage({ type: 'status_update', status: 'Processing clusters...' })
 
     const now = performance.now()
     const processed = clusters.map((cluster) => ({
@@ -100,7 +101,6 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
     }))
     const endTime = performance.now()
     console.info(`JS processing took ${endTime - now} ms`)
-    sendMessage({ type: 'status_update', status: 'processing_clusters' })
     sendMessage({ type: 'processed_clusters', clusters: processed.filter(cluster => cluster.nodes.some(node => node !== null)) })
   } catch (error: unknown) {
     console.error(error)

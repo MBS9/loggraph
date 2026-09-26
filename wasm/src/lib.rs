@@ -28,7 +28,7 @@ extern "C" {
 type GraphEdges = Vec<GraphEdge>;
 
 #[wasm_bindgen]
-pub fn cluster(json: JsValue) -> Result<JsValue, JsValue> {
+pub fn cluster(json: JsValue, resolution: f64, max_score: f64) -> Result<JsValue, JsValue> {
     let js_edges: GraphEdges = serde_wasm_bindgen::from_value(json)
         .map_err(|e| JsValue::from_str(&format!("Invalid input JSON: {e}")))?;
 
@@ -53,7 +53,7 @@ pub fn cluster(json: JsValue) -> Result<JsValue, JsValue> {
         .map_err(|e| JsValue::from_str(&format!("Failed to build graph: {e}")))?;
 
     let config = LeidenConfig {
-        objective: ObjectiveKind::Rb { resolution: 1.0 },
+        objective: ObjectiveKind::Rb { resolution },
         seed: Some(42),
         ..Default::default()
     };
@@ -82,7 +82,7 @@ pub fn cluster(json: JsValue) -> Result<JsValue, JsValue> {
     let mut clusters: Vec<Cluster> = clustering.clusters().iter().zip(heterogeneity_score.iter()).map(|(nodes, &het_score)| Cluster {
         heterogeneity_score: het_score,
         nodes: nodes.clone(),
-    }).collect();
+    }).filter(|cluster| cluster.heterogeneity_score < max_score).collect();
 
     clusters.sort_unstable_by(|a, b| a.heterogeneity_score.partial_cmp(&b.heterogeneity_score).unwrap_or(std::cmp::Ordering::Equal));
 

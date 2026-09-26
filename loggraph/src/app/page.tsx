@@ -21,7 +21,7 @@ export default function Page() {
     setLoading(true)
     setLoadError(null)
     setProcessedClusters(null)
-    worker.current?.postMessage({ graphUrl: form.graphUrl, requestsUrl: form.requestUrl })
+    worker.current?.postMessage({ graphUrl: form.graphUrl, requestsUrl: form.requestUrl, resolution: form.resolution, maxScore: form.maxHeterogeneityScore })
   }, [])
 
   const form = useConfiguration({

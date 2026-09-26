@@ -15,3 +15,11 @@ export const workerMessageSchema = z.discriminatedUnion('type', [
 
 export type WorkerMessageSchema = z.infer<typeof workerMessageSchema>
 
+export const inputMessageSchema = z.object({
+  graphUrl: z.url(),
+  requestsUrl: z.url(),
+  resolution: z.number(),
+  maxScore: z.number(),
+})
+
+export type InputMessageSchema = z.infer<typeof inputMessageSchema>

@@ -1,5 +1,5 @@
 import * as Wasm from 'wasm'
-import { WorkerMessageSchema } from './schemas'
+import { WorkerMessageSchema, InputMessageSchema } from './schemas'
 
 type Request = {
   ext_id: number
@@ -11,9 +11,9 @@ interface Cluster {
   nodes: number[]
 }
 
-function runClustering(graph: unknown) {
+function runClustering(graph: unknown, resolution: number, maxScore: number) {
   const startTime = performance.now()
-  const cluster = Wasm.cluster(graph) as Cluster[]
+  const cluster = Wasm.cluster(graph, resolution, maxScore) as Cluster[]
   const endTime = performance.now()
   console.info(`WASM clustering took ${endTime - startTime} ms`)
   return cluster
@@ -43,10 +43,10 @@ function findRequestHash(requests: Request[], extId: number) {
 
 const guaranteeWasmPromise = Wasm.default()
 
-self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: string }>) => {
+self.onmessage = async (event: MessageEvent<InputMessageSchema>) => {
   const abortController = new AbortController()
   try {
-    const { graphUrl, requestsUrl } = event.data
+    const { graphUrl, requestsUrl, resolution, maxScore } = event.data
     await guaranteeWasmPromise
     const [clusters, requestsData] = await Promise.all([
       new Promise((resolve, reject) => {
@@ -79,7 +79,7 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
       })
         .then(data => {
           sendMessage({ type: 'status_update', status: 'Clustering...' })
-          return runClustering(data)
+          return runClustering(data, resolution, maxScore)
         }),
       fetch(requestsUrl, { signal: abortController.signal }).then(response => {
         if (!response.ok) {

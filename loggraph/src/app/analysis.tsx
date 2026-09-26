@@ -45,7 +45,7 @@ export default function Analysis({ processedClusters }: { processedClusters: Pro
 
   return (
     <div>
-      <AppBar component='header' position='static'>
+      <AppBar component='header' position='sticky'>
         <Toolbar sx={{
           display: 'flex',
           justifyContent: 'space-around',

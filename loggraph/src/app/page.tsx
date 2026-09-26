@@ -44,8 +44,8 @@ export default function Page() {
         setCurrentStatus(null)
       } else if (parsed.type === 'error') {
         setLoadError(parsed.error)
+        setLoading(false)
       }
-      setLoading(false)
     }
     return () => {
       worker.current?.terminate()
@@ -68,9 +68,9 @@ export default function Page() {
             {(submit: () => void) => (
               <>
                 <Stack direction="row" spacing={2}>
-                  <Button variant='contained' onClick={submit}>Build clusters</Button>
+                  <Button variant='contained' onClick={submit} disabled={worker.current != null || loading}>Build clusters</Button>
                   {loading &&
-                    <CircularProgress value={currentPercent ?? undefined} />}
+                    <CircularProgress value={currentPercent ?? undefined} variant={currentPercent ? 'determinate' : 'indeterminate'} />}
                 </Stack>
                 {loading && currentStatus && (
                   <Typography>Status: {currentStatus}</Typography>

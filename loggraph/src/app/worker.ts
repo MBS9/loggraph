@@ -49,16 +49,35 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
   try {
     const { graphUrl, requestsUrl } = event.data
     await guaranteeWasmPromise
-    sendMessage({ type: 'status_update', status: 'fetching_graph' })
     const [clusters, requestsData] = await Promise.all([
-      fetch(graphUrl, { signal: abortController.signal }).then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch graph: ${response.status}`)
+      new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', graphUrl)
+        xhr.responseType = 'json'
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(xhr.response)
+          } else {
+            reject(new Error(`Failed to fetch graph: ${xhr.status}`))
+          }
         }
-        return response.json()
+        xhr.onerror = () => reject(new Error('Network error'))
+        xhr.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percent = (event.loaded / event.total) * 100
+            sendMessage({ type: 'status_update', status: 'fetching_graph', percent })
+          }
+        }
+        abortController.signal.addEventListener('abort', () => {
+          xhr.abort()
+          sendMessage({ type: 'status_update', status: 'aborted', percent: 0 })
+          reject(new Error('Fetch aborted'))
+        })
+        sendMessage({ type: 'status_update', status: 'fetching_graph' })
+        xhr.send()
       })
         .then(data => {
-          sendMessage({ type: 'status_update', status: 'clustering_started' })
+          sendMessage({ type: 'status_update', status: 'clustering' })
           return runClustering(data)
         }),
       fetch(requestsUrl, { signal: abortController.signal }).then(response => {
@@ -68,6 +87,8 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
         return response.json()
       }),
     ])
+
+    sendMessage({ type: 'status_update', status: 'processing_clusters' })
 
     const now = performance.now()
     const processed = clusters.map((cluster) => ({
@@ -79,6 +100,7 @@ self.onmessage = async (event: MessageEvent<{ graphUrl: string, requestsUrl: str
     }))
     const endTime = performance.now()
     console.info(`JS processing took ${endTime - now} ms`)
+    sendMessage({ type: 'status_update', status: 'processing_clusters' })
     sendMessage({ type: 'processed_clusters', clusters: processed.filter(cluster => cluster.nodes.some(node => node !== null)) })
   } catch (error: unknown) {
     console.error(error)

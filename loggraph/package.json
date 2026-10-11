@@ -12,26 +12,27 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.3.0",
-    "@mui/icons-material": "^9.4.0",
-    "@mui/material": "^9.4.0",
+    "@mui/icons-material": "^9.5.0",
+    "@mui/material": "^9.5.0",
     "next": "16.3.3",
+    "openai": "^7.32.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "wasm": "file:../wasm/pkg",
-    "zod": "^4.6.5"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@wasm-tool/wasm-pack-plugin": "^1.7.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "16.3.3",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "typescript": "^5",
-    "typescript-eslint": "^8.68.0"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.71.1"
   }
 }

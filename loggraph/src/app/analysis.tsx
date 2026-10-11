@@ -51,7 +51,7 @@ export default function Analysis({ processedClusters }: { processedClusters: Pro
           justifyContent: 'space-around',
           flexDirection: 'row',
         }}>
-          <Typography variant='h1'>Loggraph</Typography>
+          <Typography variant='h1'>Loggraph: {processedClusters?.length ?? 0} clusters</Typography>
         </Toolbar>
       </AppBar>
       <main style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem' }}>

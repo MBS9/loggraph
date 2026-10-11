@@ -38,6 +38,14 @@ export function ConfigurationForm({ configuration, onChange, children, onSubmit 
             margin="normal"
             sx={{ flexGrow: 1, flexShrink: 1 }}
           />
+          <TextField
+            label="LLM API Key"
+            type="password"
+            value={configuration.llmApiKey}
+            onChange={(e) => onChange({ ...configuration, llmApiKey: e.target.value })}
+            margin="normal"
+            sx={{ flexGrow: 1, flexShrink: 1 }}
+          />
           <Divider flexItem><Chip label="Analysis parameters" size="small" /></Divider>
           <TextField
             label="Resolution"

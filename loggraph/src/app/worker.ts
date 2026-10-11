@@ -1,5 +1,9 @@
 import * as Wasm from 'wasm'
-import { WorkerMessageSchema, InputMessageSchema } from './schemas'
+import OpenAI from 'openai'
+import pLimit from 'p-limit'
+import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
+import type { WorkerMessageSchema, InputMessageSchema, ProcessedClusterSchema } from './schemas'
+import { DEFAULT_DEEPSEEK_BASE_URL, SYSTEM_PROMPT, MODEL, MOCK_RESPONSE, type Output } from './prompts'
 
 type Request = {
   ext_id: number
@@ -17,6 +21,33 @@ function runClustering(graph: unknown, resolution: number, maxScore: number) {
   const endTime = performance.now()
   console.info(`WASM clustering took ${endTime - startTime} ms`)
   return cluster
+}
+
+async function runLLMAnalysis(cluster: Omit<ProcessedClusterSchema, 'llm_analysis'>, apiKey: string, baseURL: string = DEFAULT_DEEPSEEK_BASE_URL) {
+  // If no API key is provided, return a mock response for testing purposes
+  if (!apiKey) return MOCK_RESPONSE
+  const client = new OpenAI({ apiKey, baseURL, dangerouslyAllowBrowser: true })
+  const messages: ChatCompletionMessageParam[] = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'user', content: `${JSON.stringify(cluster, null, 2)}` },
+  ]
+  const response = await client.chat.completions.create({
+    model: MODEL,
+    messages,
+    response_format: {
+      'type': 'json_object',
+    },
+    reasoning_effort: 'low',
+  })
+  return JSON.parse(response.choices[0].message.content!) as Output
+}
+
+async function attachLLMAnalysisToCluster(cluster: Omit<ProcessedClusterSchema, 'llm_analysis'>, apiKey: string, baseURL: string = DEFAULT_DEEPSEEK_BASE_URL) {
+  const analysis = await runLLMAnalysis(cluster, apiKey, baseURL)
+  return {
+    ...cluster,
+    llm_analysis: analysis,
+  }
 }
 
 function sendMessage(message: WorkerMessageSchema) {
@@ -46,7 +77,7 @@ const guaranteeWasmPromise = Wasm.default()
 self.onmessage = async (event: MessageEvent<InputMessageSchema>) => {
   const abortController = new AbortController()
   try {
-    const { graphUrl, requestsUrl, resolution, maxScore } = event.data
+    const { graphUrl, requestsUrl, resolution, maxScore, llmApiKey } = event.data
     await guaranteeWasmPromise
     const [clusters, requestsData] = await Promise.all([
       new Promise((resolve, reject) => {
@@ -92,13 +123,25 @@ self.onmessage = async (event: MessageEvent<InputMessageSchema>) => {
     sendMessage({ type: 'status_update', status: 'Processing clusters...' })
 
     const now = performance.now()
-    const processed = clusters.map((cluster) => ({
-      nodes: cluster.nodes.map((node) => {
-        const request = findRequestHash(requestsData, node)
-        return request
-      }),
-      heterogeneity_score: cluster.heterogeneity_score,
-    }))
+    const limit = pLimit(10)
+    const processed = await Promise.all(
+      clusters.map(
+        (cluster) =>
+          limit(() =>
+            attachLLMAnalysisToCluster(
+              {
+                nodes: cluster.nodes.map((node) => {
+                  const request = findRequestHash(requestsData, node)
+                  return request
+                }),
+                heterogeneity_score: cluster.heterogeneity_score,
+              },
+              llmApiKey,
+            ),
+          ),
+      ),
+    )
+    console.log(JSON.stringify(processed[0]))
     const endTime = performance.now()
     console.info(`JS processing took ${endTime - now} ms`)
     sendMessage({ type: 'processed_clusters', clusters: processed.filter(cluster => cluster.nodes.some(node => node !== null)) })

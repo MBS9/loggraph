@@ -5,4 +5,5 @@ export type Configuration = {
   maxHeterogeneityScore: number
   graphUrl: string
   requestUrl: string
+  llmApiKey: string
 }

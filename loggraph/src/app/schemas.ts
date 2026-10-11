@@ -3,6 +3,10 @@ import { z } from 'zod'
 const processedClusterSchema = z.object({
   nodes: z.array(z.string().nullable()),
   heterogeneity_score: z.number(),
+  llm_analysis: z.object({
+    cluster_name: z.string(),
+    deeper_insight: z.string(),
+  }).nullable(),
 })
 
 export type ProcessedClusterSchema = z.infer<typeof processedClusterSchema>
@@ -17,6 +21,7 @@ export type WorkerMessageSchema = z.infer<typeof workerMessageSchema>
 
 export const inputMessageSchema = z.object({
   graphUrl: z.url(),
+  llmApiKey: z.string(),
   requestsUrl: z.url(),
   resolution: z.number(),
   maxScore: z.number(),

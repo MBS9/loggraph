@@ -21,7 +21,7 @@ export default function Page() {
     setLoading(true)
     setLoadError(null)
     setProcessedClusters(null)
-    worker.current?.postMessage({ graphUrl: form.graphUrl, requestsUrl: form.requestUrl, resolution: form.resolution, maxScore: form.maxHeterogeneityScore })
+    worker.current?.postMessage({ graphUrl: form.graphUrl, requestsUrl: form.requestUrl, resolution: form.resolution, maxScore: form.maxHeterogeneityScore, llmApiKey: form.llmApiKey })
   }, [])
 
   const form = useConfiguration({
@@ -29,6 +29,7 @@ export default function Page() {
     maxHeterogeneityScore: 0.7,
     graphUrl: process.env.NEXT_PUBLIC_GRAPH_URL as string,
     requestUrl: process.env.NEXT_PUBLIC_REQUESTS_URL as string,
+    llmApiKey: process.env.NEXT_PUBLIC_LLM_API_KEY as string,
   }, onSubmit)
 
   useEffect(() => {

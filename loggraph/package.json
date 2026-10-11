@@ -16,6 +16,7 @@
     "@mui/material": "^9.5.0",
     "next": "16.3.3",
     "openai": "^7.32.0",
+    "p-limit": "^7.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "wasm": "file:../wasm/pkg",

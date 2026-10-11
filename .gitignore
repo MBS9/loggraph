@@ -3,3 +3,5 @@ server.py
 explain.txt
 seed.sql
 target/
+work/*.json
+work/content.md

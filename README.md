@@ -1,30 +1,36 @@
 # Loggraph
 
-The goal of the project is to cluster bot traffic using a partially supervised algorithm, and to use this to gain insights into key bot activity.
+## Overview
 
-# Motivations
+The goal of this project is to cluster bot traffic using a partially supervised approach in order to gain insights into common patterns of automated activity on the Internet.
 
-Home labs, and small servers rarely see specialised, targetted attacks. Therefore, the main security concern for most labs is automated bot traffic.
+## Motivation
 
-It is therefore important to gain an in depth understanding of bot traffic, vulnerabilities targetted, to know the trends affecting security landscape of home labs.
+Home labs and small self-hosted servers rarely experience highly specialized, targeted attacks. Instead, the primary security concern for most operators is large volumes of automated bot traffic.
 
-# Project overview
+To better understand the security risks facing home labs, it is important to analyze the types of bot activity that are most commonly observed, the vulnerabilities being targeted, and the broader trends affecting the threat landscape.
 
-As a first step, a webserver is setup that records all incomming HTTP requests, and stores them in a SQL database. Requests are broken down into request parts: method, source ip, host, endpoint, important headers, etc... are all stored as sepperate atomic units.
+## Project Overview
 
-A fully connected undirected graph is compiled, with the nodes representing distinct requests, and the weight of the edges being the Jaccard similarity index of the set of parts in each requests. To decrease graph size and to remove noise, and edge whose weight is less then 0.3 is dropped. The final graph used contained roughly 60k nodes, i.e.: 60k distinct HTTP requests.
+As a first step, a web server was deployed to record incoming HTTP requests and store them in a SQL database. Each request is decomposed into a set of request parts, including the HTTP method, source IP address, host, endpoint, important headers, and other relevant attributes. These components are stored as separate atomic units.
 
-Next, the Leiden clustering algorithm is used to cluster nodes based on the graph. After dropping clusters whose heterogeniety score was very high, or contained only 1 item, the algorithm compiled 499 clusters. I used the Deepseek API to generate a label and a brief discription of the HTTP requests in each cluster.
+A fully connected, undirected graph is then constructed, where each node represents a distinct HTTP request and the weight of each edge corresponds to the Jaccard similarity index between the sets of parts associated with the two requests. To reduce graph size and remove noise, edges with a weight below 0.3 are discarded. The resulting graph contains approximately 60,000 nodes, representing 60,000 distinct HTTP requests.
 
-The number of distinct requests in each cluster followed a long-tail distribution. The most commonly occuring request count in a cluster was 2, but with a mean request count of 116, the distribution had a strong postive skew. The std. deviation of this metric was 545, demonstrating that the spread is massive. The largest cluster contained 5084 requests, and of the 499 total, only 50 clusters contained more than 100 items. Therefore, most clusters were small.
+Next, the Leiden community detection algorithm is applied to cluster nodes within the graph. After discarding clusters with high heterogeneity scores and clusters containing only a single item, the algorithm produced 499 clusters. The DeepSeek API was then used to generate a label and a brief description for each cluster based on the requests it contained.
 
-The aim of this project was to identify the most commonly targetted applications, and the biggest trends in bot traffic. For this purpose, larger clusters are more interesting, since they demonstrate that many different HTTP requests share similar features. These shared features are the biggest trends in bot traffic, concluding the project. Of the 50 clusters that contained more than 100 requests, many clusters shared common themes. By manually compiling the themes, I determine that the trends are:
+The distribution of request counts per cluster follows a long-tail distribution. The most common cluster size was 2 requests, while the mean cluster size was 116 requests. This indicates a strong positive skew. The standard deviation was 545 requests, demonstrating substantial variation in cluster size. The largest cluster contained 5,084 requests, and only 50 of the 499 clusters contained more than 100 requests. Consequently, most clusters were relatively small.
 
-1. Wordpress is targetted a lot
-2. Vulnerabilities PHP frameworks, applications are commonly targetted
-3. Web crawlers for search engines are commonly seen
-4. A lot of malicious requests try to download sensitive files such as /.env, /.git/config, or well known secret files for a range of services, hoping that they are insecurly exposed.
-5. Directory brute force is commonly seen
-6. Authentication endpoint probing, and searching for associated vulnerabilties
-7. User agent spoofing, is commonly seen in bot traffic.
-8. A range of differnet exploit scanners are commonly seen 
+## Findings
+
+The objective of this project was to identify commonly targeted applications and broader trends within bot traffic. Larger clusters are particularly interesting because they indicate that many distinct HTTP requests share common characteristics. These shared characteristics reveal recurring patterns in automated scanning and exploitation activity.
+
+Among the 50 clusters containing more than 100 requests, several recurring themes emerged. After manually reviewing and categorizing these clusters, the following trends were identified:
+
+1. WordPress is heavily targeted.
+2. Vulnerabilities in PHP frameworks and PHP-based applications are frequently targeted.
+3. Search engine crawlers are commonly observed.
+4. Many malicious requests attempt to retrieve sensitive files such as `/.env`, `/.git/config`, and other well-known secret files, hoping that they have been inadvertently exposed.
+5. Directory brute-forcing is a common activity.
+6. Authentication endpoints are frequently probed for vulnerabilities and misconfigurations.
+7. User-Agent spoofing is commonly observed in bot traffic.
+8. A wide variety of exploit scanners are regularly encountered.

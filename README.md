@@ -18,13 +18,13 @@ A fully connected, undirected graph is then constructed, where each node represe
 
 Next, the Leiden community detection algorithm is applied to cluster nodes within the graph. After discarding clusters with high heterogeneity scores and clusters containing only a single item, the algorithm produced 499 clusters. The DeepSeek API was then used to generate a label and a brief description for each cluster based on the requests it contained.
 
-The distribution of request counts per cluster follows a long-tail distribution. The most common cluster size was 2 requests, while the mean cluster size was 116 requests. This indicates a strong positive skew. The standard deviation was 545 requests, demonstrating substantial variation in cluster size. The largest cluster contained 5,084 requests, and only 50 of the 499 clusters contained more than 100 requests. Consequently, most clusters were relatively small.
+The distribution of request counts per cluster follows a long-tail distribution. The most common cluster size was 2 requests, while the mean cluster size was 116 requests. This indicates a strong positive skew. The standard deviation was 545 requests, demonstrating substantial variation in cluster size. The largest cluster contained 5,084 requests, and only 49 of the 499 clusters contained more than 100 requests. Consequently, most clusters were relatively small.
 
 ## Findings
 
 The objective of this project was to identify commonly targeted applications and broader trends within bot traffic. Larger clusters are particularly interesting because they indicate that many distinct HTTP requests share common characteristics. These shared characteristics reveal recurring patterns in automated scanning and exploitation activity.
 
-Among the 50 clusters containing more than 100 requests, several recurring themes emerged. After manually reviewing and categorizing these clusters, the following trends were identified:
+Among the 49 clusters containing more than 100 requests, several recurring themes emerged. After manually reviewing and categorizing these clusters, the following trends were identified:
 
 1. WordPress is heavily targeted.
 2. Vulnerabilities in PHP frameworks and PHP-based applications are frequently targeted.

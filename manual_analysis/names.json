@@ -1,0 +1,1998 @@
+[
+  {
+    "cluster_id": 0,
+    "analysis": "DefaultsExposed header scanning"
+  },
+  {
+    "cluster_id": 1,
+    "analysis": "Automated curl root probing"
+  },
+  {
+    "cluster_id": 2,
+    "analysis": "Signup page navigation with tracking parameters"
+  },
+  {
+    "cluster_id": 3,
+    "analysis": "Automated root GET with spoofed Firefox UA"
+  },
+  {
+    "cluster_id": 4,
+    "analysis": "WordPress UpdraftCentral exploitation attempt"
+  },
+  {
+    "cluster_id": 5,
+    "analysis": "VS Code SFTP config file probing"
+  },
+  {
+    "cluster_id": 6,
+    "analysis": "Bingbot robots.txt crawling"
+  },
+  {
+    "cluster_id": 7,
+    "analysis": "Suspicious template editor endpoint probing"
+  },
+  {
+    "cluster_id": 8,
+    "analysis": "GPON diag_Form exploit probing"
+  },
+  {
+    "cluster_id": 9,
+    "analysis": "SFTP config file probing"
+  },
+  {
+    "cluster_id": 10,
+    "analysis": "Benign root URL redirect checks"
+  },
+  {
+    "cluster_id": 11,
+    "analysis": "Benign root domain redirect checks"
+  },
+  {
+    "cluster_id": 12,
+    "analysis": "Nameserver HTTP validation checks"
+  },
+  {
+    "cluster_id": 13,
+    "analysis": "Odoo login endpoint probing"
+  },
+  {
+    "cluster_id": 14,
+    "analysis": "Likely benign signup page redirect traffic"
+  },
+  {
+    "cluster_id": 15,
+    "analysis": "HNAP1 router exploit probing"
+  },
+  {
+    "cluster_id": 16,
+    "analysis": "OpenWrt LuCI probing"
+  },
+  {
+    "cluster_id": 17,
+    "analysis": "Baiduspider admin asset probing"
+  },
+  {
+    "cluster_id": 18,
+    "analysis": "WordPress REST API batch endpoint probing"
+  },
+  {
+    "cluster_id": 19,
+    "analysis": "CMS-Checker bot root probing"
+  },
+  {
+    "cluster_id": 20,
+    "analysis": "SleepBot robots.txt crawler traffic"
+  },
+  {
+    "cluster_id": 21,
+    "analysis": "SSH private key exposure probing"
+  },
+  {
+    "cluster_id": 22,
+    "analysis": "SSL private key exposure probing"
+  },
+  {
+    "cluster_id": 23,
+    "analysis": "Service account JSON credential probing"
+  },
+  {
+    "cluster_id": 24,
+    "analysis": "net-research-scan favicon requests"
+  },
+  {
+    "cluster_id": 25,
+    "analysis": "WordPress REST API user enumeration probing"
+  },
+  {
+    "cluster_id": 26,
+    "analysis": "Generic /open/ endpoint probing"
+  },
+  {
+    "cluster_id": 27,
+    "analysis": "Sensitive .env file probing"
+  },
+  {
+    "cluster_id": 28,
+    "analysis": "Root domain redirect probing"
+  },
+  {
+    "cluster_id": 29,
+    "analysis": "SSRF file disclosure attempt"
+  },
+  {
+    "cluster_id": 30,
+    "analysis": ".git/HEAD exposure probing"
+  },
+  {
+    "cluster_id": 31,
+    "analysis": "Generic HTTP root probing"
+  },
+  {
+    "cluster_id": 32,
+    "analysis": "WordPress login endpoint probing"
+  },
+  {
+    "cluster_id": 33,
+    "analysis": "Palo Alto GlobalProtect prelogin probing"
+  },
+  {
+    "cluster_id": 34,
+    "analysis": "Benign favicon fetch requests"
+  },
+  {
+    "cluster_id": 35,
+    "analysis": "SSRF cloud metadata token probing"
+  },
+  {
+    "cluster_id": 36,
+    "analysis": "zgrab /version endpoint probing"
+  },
+  {
+    "cluster_id": 37,
+    "analysis": "GCP credentials file probing"
+  },
+  {
+    "cluster_id": 38,
+    "analysis": "Environment file (.env) probing"
+  },
+  {
+    "cluster_id": 39,
+    "analysis": "CensysInspect root scanning"
+  },
+  {
+    "cluster_id": 40,
+    "analysis": "Azure token file SSRF/file disclosure attempt"
+  },
+  {
+    "cluster_id": 41,
+    "analysis": "Hudson/Jenkins endpoint scanning"
+  },
+  {
+    "cluster_id": 42,
+    "analysis": "Root HEAD redirect check"
+  },
+  {
+    "cluster_id": 43,
+    "analysis": "Random path probing / 404 scanning"
+  },
+  {
+    "cluster_id": 44,
+    "analysis": "Odin crawler probing"
+  },
+  {
+    "cluster_id": 45,
+    "analysis": "WS-Management (WinRM) endpoint probing"
+  },
+  {
+    "cluster_id": 46,
+    "analysis": "TelegramBot /api/account requests"
+  },
+  {
+    "cluster_id": 47,
+    "analysis": "Sensitive log file probing"
+  },
+  {
+    "cluster_id": 48,
+    "analysis": "WordPress REST API probing"
+  },
+  {
+    "cluster_id": 49,
+    "analysis": "WordPress REST API reconnaissance"
+  },
+  {
+    "cluster_id": 50,
+    "analysis": "robots.txt probing"
+  },
+  {
+    "cluster_id": 51,
+    "analysis": "ClaudeBot robots.txt crawl"
+  },
+  {
+    "cluster_id": 52,
+    "analysis": "WordPress Gravity SMTP REST endpoint probing"
+  },
+  {
+    "cluster_id": 53,
+    "analysis": "SSRF cloud metadata credential harvesting"
+  },
+  {
+    "cluster_id": 54,
+    "analysis": "pfBlockerNG endpoint probing"
+  },
+  {
+    "cluster_id": 55,
+    "analysis": "mbs9.org root redirect requests"
+  },
+  {
+    "cluster_id": 56,
+    "analysis": "DVR endpoint probing"
+  },
+  {
+    "cluster_id": 57,
+    "analysis": "Favicon fetch and redirect"
+  },
+  {
+    "cluster_id": 58,
+    "analysis": "Symfony profiler endpoint probing"
+  },
+  {
+    "cluster_id": 59,
+    "analysis": "Facebook crawler robots.txt access"
+  },
+  {
+    "cluster_id": 60,
+    "analysis": "Distributed HTTP 400 probing"
+  },
+  {
+    "cluster_id": 61,
+    "analysis": "Cisco ASA/AnyConnect path traversal exploitation attempts"
+  },
+  {
+    "cluster_id": 62,
+    "analysis": "Atlassian Crowd user enumeration probing"
+  },
+  {
+    "cluster_id": 63,
+    "analysis": "Apache Axis2 metadata uploader exploitation attempt"
+  },
+  {
+    "cluster_id": 64,
+    "analysis": "Laravel source file probing"
+  },
+  {
+    "cluster_id": 65,
+    "analysis": "Infrawatch bot root probing"
+  },
+  {
+    "cluster_id": 66,
+    "analysis": "BuiltWith crawler root requests"
+  },
+  {
+    "cluster_id": 67,
+    "analysis": "wpbot robots.txt crawling"
+  },
+  {
+    "cluster_id": 68,
+    "analysis": "HeadlessChrome root redirect checks"
+  },
+  {
+    "cluster_id": 69,
+    "analysis": "environment.js configuration probing"
+  },
+  {
+    "cluster_id": 70,
+    "analysis": "Benign service-worker.js requests"
+  },
+  {
+    "cluster_id": 71,
+    "analysis": "Git config exposure probing"
+  },
+  {
+    "cluster_id": 72,
+    "analysis": "Docker Compose config file probing"
+  },
+  {
+    "cluster_id": 73,
+    "analysis": "Benign root domain redirect check"
+  },
+  {
+    "cluster_id": 74,
+    "analysis": "Benign root redirect traffic"
+  },
+  {
+    "cluster_id": 75,
+    "analysis": "Benign root-domain redirect requests"
+  },
+  {
+    "cluster_id": 76,
+    "analysis": "Benign root domain redirect checks"
+  },
+  {
+    "cluster_id": 77,
+    "analysis": "Benign root redirect traffic"
+  },
+  {
+    "cluster_id": 78,
+    "analysis": "Bingbot crawler traffic"
+  },
+  {
+    "cluster_id": 79,
+    "analysis": "Benign root domain redirect access"
+  },
+  {
+    "cluster_id": 80,
+    "analysis": "Bare HTTP/1.0 root probing"
+  },
+  {
+    "cluster_id": 81,
+    "analysis": "GPTBot WordPress REST API crawling"
+  },
+  {
+    "cluster_id": 82,
+    "analysis": "PbootCMS probe reconnaissance"
+  },
+  {
+    "cluster_id": 83,
+    "analysis": "Automated license.txt probing"
+  },
+  {
+    "cluster_id": 84,
+    "analysis": "Content-editor endpoint probing"
+  },
+  {
+    "cluster_id": 85,
+    "analysis": ".env file probing"
+  },
+  {
+    "cluster_id": 86,
+    "analysis": "Suspicious /open/ path probing"
+  },
+  {
+    "cluster_id": 87,
+    "analysis": "Buildspec.yml exposure reconnaissance"
+  },
+  {
+    "cluster_id": 88,
+    "analysis": "Sensitive config file probing"
+  },
+  {
+    "cluster_id": 89,
+    "analysis": "AHT UI asset scanning"
+  },
+  {
+    "cluster_id": 90,
+    "analysis": "Automated root path probing"
+  },
+  {
+    "cluster_id": 91,
+    "analysis": "Benign root URL redirect traffic"
+  },
+  {
+    "cluster_id": 92,
+    "analysis": "Automated multipart POST to root"
+  },
+  {
+    "cluster_id": 93,
+    "analysis": "Archivarix CMS file probing"
+  },
+  {
+    "cluster_id": 94,
+    "analysis": "Benign root HEAD redirect checks"
+  },
+  {
+    "cluster_id": 95,
+    "analysis": "CMS security self-check root probing"
+  },
+  {
+    "cluster_id": 96,
+    "analysis": "Favicon probing by okhttp client"
+  },
+  {
+    "cluster_id": 97,
+    "analysis": "Distributed curl root probing"
+  },
+  {
+    "cluster_id": 98,
+    "analysis": "Distributed IP-based web scanning"
+  },
+  {
+    "cluster_id": 99,
+    "analysis": "Atlassian Jira path traversal probing"
+  },
+  {
+    "cluster_id": 100,
+    "analysis": "Root domain redirect probing"
+  },
+  {
+    "cluster_id": 101,
+    "analysis": "WP-Safe-Scanner root probing"
+  },
+  {
+    "cluster_id": 102,
+    "analysis": "Sensitive credentials file probing"
+  },
+  {
+    "cluster_id": 103,
+    "analysis": "Kubernetes service account token theft attempt via /@fs"
+  },
+  {
+    "cluster_id": 104,
+    "analysis": "Root domain scanner probing"
+  },
+  {
+    "cluster_id": 105,
+    "analysis": "Suspicious /Dr0v path probing"
+  },
+  {
+    "cluster_id": 106,
+    "analysis": "Heritrix crawler indexing"
+  },
+  {
+    "cluster_id": 107,
+    "analysis": "Bytespider crawler robots.txt requests"
+  },
+  {
+    "cluster_id": 108,
+    "analysis": "ONVIF GetDeviceInformation probing"
+  },
+  {
+    "cluster_id": 109,
+    "analysis": "quic-go HTTP/3 Nginx probing"
+  },
+  {
+    "cluster_id": 110,
+    "analysis": "F5 BIG-IP iControl REST bash exploit probing"
+  },
+  {
+    "cluster_id": 111,
+    "analysis": "WordPress Gravity SMTP REST endpoint probing"
+  },
+  {
+    "cluster_id": 112,
+    "analysis": "Joomla asset probing"
+  },
+  {
+    "cluster_id": 113,
+    "analysis": "Suspicious sdesktop path probing"
+  },
+  {
+    "cluster_id": 114,
+    "analysis": "Apache Struts2 exploit probing"
+  },
+  {
+    "cluster_id": 115,
+    "analysis": ".env configuration file probing"
+  },
+  {
+    "cluster_id": 116,
+    "analysis": "YandexBot robots.txt crawling"
+  },
+  {
+    "cluster_id": 117,
+    "analysis": "VPN portal file probing"
+  },
+  {
+    "cluster_id": 118,
+    "analysis": "Laravel bladeHelpers.php probing"
+  },
+  {
+    "cluster_id": 119,
+    "analysis": "Benign root redirect traffic"
+  },
+  {
+    "cluster_id": 120,
+    "analysis": "Benign root domain redirects"
+  },
+  {
+    "cluster_id": 121,
+    "analysis": "Host header probing / virtual host reconnaissance"
+  },
+  {
+    "cluster_id": 122,
+    "analysis": "Robots.txt probing"
+  },
+  {
+    "cluster_id": 123,
+    "analysis": "WebAtla bot root URL crawling"
+  },
+  {
+    "cluster_id": 124,
+    "analysis": "Cloud service-account JSON credential probing"
+  },
+  {
+    "cluster_id": 125,
+    "analysis": "WordPress admin endpoint probing"
+  },
+  {
+    "cluster_id": 126,
+    "analysis": "Distributed robots.txt crawling"
+  },
+  {
+    "cluster_id": 127,
+    "analysis": "SaaSBrowserBot robots.txt and root crawl"
+  },
+  {
+    "cluster_id": 128,
+    "analysis": "AwarioBot crawler traffic"
+  },
+  {
+    "cluster_id": 129,
+    "analysis": "LohiSoftBot crawler traffic"
+  },
+  {
+    "cluster_id": 130,
+    "analysis": "SectorBot crawler traffic"
+  },
+  {
+    "cluster_id": 131,
+    "analysis": "WordPress REST API probing"
+  },
+  {
+    "cluster_id": 132,
+    "analysis": "SE Ranking backlinks crawler traffic"
+  },
+  {
+    "cluster_id": 133,
+    "analysis": "Benign root path requests across mbs9.org subdomains"
+  },
+  {
+    "cluster_id": 134,
+    "analysis": "PHPUnit eval-stdin.php RCE probing"
+  },
+  {
+    "cluster_id": 135,
+    "analysis": "Nginx default page method probing"
+  },
+  {
+    "cluster_id": 136,
+    "analysis": "WordPress login endpoint probing"
+  },
+  {
+    "cluster_id": 137,
+    "analysis": "Microsoft Exchange ProxyShell autodiscover probing"
+  },
+  {
+    "cluster_id": 138,
+    "analysis": "Distributed robots.txt probing"
+  },
+  {
+    "cluster_id": 139,
+    "analysis": "Apache Solr admin reconnaissance"
+  },
+  {
+    "cluster_id": 140,
+    "analysis": ".env configuration file probing"
+  },
+  {
+    "cluster_id": 141,
+    "analysis": "MJ12bot crawler traffic"
+  },
+  {
+    "cluster_id": 142,
+    "analysis": "Distributed empty-path GET probing"
+  },
+  {
+    "cluster_id": 143,
+    "analysis": "Admin config.php enumeration"
+  },
+  {
+    "cluster_id": 144,
+    "analysis": "WordPress Gravity SMTP REST endpoint probing"
+  },
+  {
+    "cluster_id": 145,
+    "analysis": "OpenAI OAI-SearchBot robots.txt crawling"
+  },
+  {
+    "cluster_id": 146,
+    "analysis": "HTTP method enumeration on root"
+  },
+  {
+    "cluster_id": 147,
+    "analysis": "Metabase API vulnerability probing"
+  },
+  {
+    "cluster_id": 148,
+    "analysis": "Benign homepage redirect traffic"
+  },
+  {
+    "cluster_id": 149,
+    "analysis": "Suspicious PUT to /cgi-bin/bip.cgi"
+  },
+  {
+    "cluster_id": 150,
+    "analysis": "Boaform router admin login attempts"
+  },
+  {
+    "cluster_id": 151,
+    "analysis": "AWS credential file probing"
+  },
+  {
+    "cluster_id": 152,
+    "analysis": "SSL private key exposure probing"
+  },
+  {
+    "cluster_id": 153,
+    "analysis": "SSL private key file probing"
+  },
+  {
+    "cluster_id": 154,
+    "analysis": "Laravel Debugbar probing"
+  },
+  {
+    "cluster_id": 155,
+    "analysis": "Laravel Telescope endpoint probing"
+  },
+  {
+    "cluster_id": 156,
+    "analysis": "S3 credentials file probing"
+  },
+  {
+    "cluster_id": 157,
+    "analysis": "Subversion metadata reconnaissance"
+  },
+  {
+    "cluster_id": 158,
+    "analysis": "AWS .env.production secret probing"
+  },
+  {
+    "cluster_id": 159,
+    "analysis": "Vite /@vite/env probing"
+  },
+  {
+    "cluster_id": 160,
+    "analysis": "Docker config credential probing"
+  },
+  {
+    "cluster_id": 161,
+    "analysis": "Jenkins config file probing"
+  },
+  {
+    "cluster_id": 162,
+    "analysis": "SSL private key file probing"
+  },
+  {
+    "cluster_id": 163,
+    "analysis": "SSH private key exposure probing"
+  },
+  {
+    "cluster_id": 164,
+    "analysis": "Spring Boot Actuator configprops probing"
+  },
+  {
+    "cluster_id": 165,
+    "analysis": "Go debug endpoint probing (/debug/vars)"
+  },
+  {
+    "cluster_id": 166,
+    "analysis": "GCP config file probing"
+  },
+  {
+    "cluster_id": 167,
+    "analysis": "GCP service account key probing"
+  },
+  {
+    "cluster_id": 168,
+    "analysis": ".ssh private key probing"
+  },
+  {
+    "cluster_id": 169,
+    "analysis": "Django settings.py exposure probing"
+  },
+  {
+    "cluster_id": 170,
+    "analysis": "OpenClaw config file probing"
+  },
+  {
+    "cluster_id": 171,
+    "analysis": "GraphQL console probing"
+  },
+  {
+    "cluster_id": 172,
+    "analysis": "SSRF AWS metadata credential probing"
+  },
+  {
+    "cluster_id": 173,
+    "analysis": "Sensitive env.js file probing"
+  },
+  {
+    "cluster_id": 174,
+    "analysis": ".claude settings.json probing"
+  },
+  {
+    "cluster_id": 175,
+    "analysis": "SSRF cloud metadata IAM probing"
+  },
+  {
+    "cluster_id": 176,
+    "analysis": "WordPress debug.log probing"
+  },
+  {
+    "cluster_id": 177,
+    "analysis": "Codex config file probing"
+  },
+  {
+    "cluster_id": 178,
+    "analysis": "Hermes config file probing"
+  },
+  {
+    "cluster_id": 179,
+    "analysis": "Sensitive Claude config file probing"
+  },
+  {
+    "cluster_id": 180,
+    "analysis": "Suspicious .openai/config.json probing"
+  },
+  {
+    "cluster_id": 181,
+    "analysis": "Suspicious /config.json probing"
+  },
+  {
+    "cluster_id": 182,
+    "analysis": "AI bot .well-known JWKS crawling"
+  },
+  {
+    "cluster_id": 183,
+    "analysis": "Gradle properties file exposure probing"
+  },
+  {
+    "cluster_id": 184,
+    "analysis": "GCP credentials file probing"
+  },
+  {
+    "cluster_id": 185,
+    "analysis": "GCP service account credential probing"
+  },
+  {
+    "cluster_id": 186,
+    "analysis": "Anthropic config file probing"
+  },
+  {
+    "cluster_id": 187,
+    "analysis": "Azure credential file probing"
+  },
+  {
+    "cluster_id": 188,
+    "analysis": "Sensitive API key file probing"
+  },
+  {
+    "cluster_id": 189,
+    "analysis": "AI crawler config file requests"
+  },
+  {
+    "cluster_id": 190,
+    "analysis": "Flask instance config probing"
+  },
+  {
+    "cluster_id": 191,
+    "analysis": "Spring Boot Actuator configprops probing"
+  },
+  {
+    "cluster_id": 192,
+    "analysis": "HTTP method enumeration against web root"
+  },
+  {
+    "cluster_id": 193,
+    "analysis": "PHP webshell and WordPress enumeration"
+  },
+  {
+    "cluster_id": 194,
+    "analysis": "Distributed WordPress wp-login.php probing"
+  },
+  {
+    "cluster_id": 195,
+    "analysis": "Host root probing"
+  },
+  {
+    "cluster_id": 196,
+    "analysis": "PHP sensitive-file and webshell enumeration"
+  },
+  {
+    "cluster_id": 197,
+    "analysis": "CVE-2023-20198 Cisco IOS XE Web UI probing"
+  },
+  {
+    "cluster_id": 198,
+    "analysis": "PHP sensitive file and admin endpoint probing"
+  },
+  {
+    "cluster_id": 199,
+    "analysis": "Standard site metadata and root requests"
+  },
+  {
+    "cluster_id": 200,
+    "analysis": "Standard crawler/site discovery probes"
+  },
+  {
+    "cluster_id": 201,
+    "analysis": "Likely crawler SEO path checks"
+  },
+  {
+    "cluster_id": 202,
+    "analysis": "Distributed malformed POST probing"
+  },
+  {
+    "cluster_id": 203,
+    "analysis": "Microsoft Exchange ProxyShell probing"
+  },
+  {
+    "cluster_id": 204,
+    "analysis": "PHP-CGI argument injection exploitation attempts"
+  },
+  {
+    "cluster_id": 205,
+    "analysis": "Router CGI command injection attempts"
+  },
+  {
+    "cluster_id": 206,
+    "analysis": "HTTP virtual host and redirect probing"
+  },
+  {
+    "cluster_id": 207,
+    "analysis": "Benign root page requests"
+  },
+  {
+    "cluster_id": 208,
+    "analysis": "Benign root-domain redirect traffic"
+  },
+  {
+    "cluster_id": 209,
+    "analysis": "Benign root domain redirect requests"
+  },
+  {
+    "cluster_id": 210,
+    "analysis": "Benign root access with 301 redirects"
+  },
+  {
+    "cluster_id": 211,
+    "analysis": "Benign root URL redirect traffic"
+  },
+  {
+    "cluster_id": 212,
+    "analysis": "Benign root domain requests"
+  },
+  {
+    "cluster_id": 213,
+    "analysis": "Root path requests with outdated browser UA"
+  },
+  {
+    "cluster_id": 214,
+    "analysis": "Asset-mapper bot probing"
+  },
+  {
+    "cluster_id": 215,
+    "analysis": "Benign root domain redirect access"
+  },
+  {
+    "cluster_id": 216,
+    "analysis": "Benign root redirect traffic"
+  },
+  {
+    "cluster_id": 217,
+    "analysis": "Root path requests with HTTP-to-HTTPS redirect"
+  },
+  {
+    "cluster_id": 218,
+    "analysis": "Automated HEAD root redirect checks"
+  },
+  {
+    "cluster_id": 219,
+    "analysis": "WordPress xmlrpc.php probing"
+  },
+  {
+    "cluster_id": 220,
+    "analysis": "Benign root GET requests"
+  },
+  {
+    "cluster_id": 221,
+    "analysis": "Benign homepage redirect access"
+  },
+  {
+    "cluster_id": 222,
+    "analysis": "Root path redirect checks"
+  },
+  {
+    "cluster_id": 223,
+    "analysis": "Benign root host redirect checks"
+  },
+  {
+    "cluster_id": 224,
+    "analysis": "WordPress xmlrpc.php probing"
+  },
+  {
+    "cluster_id": 225,
+    "analysis": "HTTP root redirect probing"
+  },
+  {
+    "cluster_id": 226,
+    "analysis": "Distributed root path probing"
+  },
+  {
+    "cluster_id": 227,
+    "analysis": "Root domain redirect checks"
+  },
+  {
+    "cluster_id": 228,
+    "analysis": "Benign root domain redirect checks"
+  },
+  {
+    "cluster_id": 229,
+    "analysis": "Benign root page access"
+  },
+  {
+    "cluster_id": 230,
+    "analysis": "Likely benign root domain redirect check"
+  },
+  {
+    "cluster_id": 231,
+    "analysis": "Benign root domain redirect traffic"
+  },
+  {
+    "cluster_id": 232,
+    "analysis": "Root path scanning traffic"
+  },
+  {
+    "cluster_id": 233,
+    "analysis": "Benign root domain redirect checks"
+  },
+  {
+    "cluster_id": 234,
+    "analysis": "mbs9.org root path requests"
+  },
+  {
+    "cluster_id": 235,
+    "analysis": "Confluence login probing"
+  },
+  {
+    "cluster_id": 236,
+    "analysis": "Bare root-path HTTP probing"
+  },
+  {
+    "cluster_id": 237,
+    "analysis": "Infrawatch favicon monitoring"
+  },
+  {
+    "cluster_id": 238,
+    "analysis": "WordPress xmlrpc.php probing"
+  },
+  {
+    "cluster_id": 239,
+    "analysis": "Root URL redirect probing"
+  },
+  {
+    "cluster_id": 240,
+    "analysis": "Low-confidence root-path probing"
+  },
+  {
+    "cluster_id": 241,
+    "analysis": "WordPress xmlrpc.php probing"
+  },
+  {
+    "cluster_id": 242,
+    "analysis": "Root domain redirect requests"
+  },
+  {
+    "cluster_id": 243,
+    "analysis": "UCP well-known crawler traffic"
+  },
+  {
+    "cluster_id": 244,
+    "analysis": "Root domain redirect traffic"
+  },
+  {
+    "cluster_id": 245,
+    "analysis": "Root GET requests with 301 redirects"
+  },
+  {
+    "cluster_id": 246,
+    "analysis": "Benign root path requests"
+  },
+  {
+    "cluster_id": 247,
+    "analysis": "ForestEngine bot crawler traffic"
+  },
+  {
+    "cluster_id": 248,
+    "analysis": "WordPress XML-RPC endpoint probing"
+  },
+  {
+    "cluster_id": 249,
+    "analysis": "Root path redirect probing"
+  },
+  {
+    "cluster_id": 250,
+    "analysis": "Automated root path probing"
+  },
+  {
+    "cluster_id": 251,
+    "analysis": "Benign root path redirect checks"
+  },
+  {
+    "cluster_id": 252,
+    "analysis": "Automated CMS checker probing"
+  },
+  {
+    "cluster_id": 253,
+    "analysis": "Benign root redirect requests"
+  },
+  {
+    "cluster_id": 254,
+    "analysis": "Benign root-path browser requests"
+  },
+  {
+    "cluster_id": 255,
+    "analysis": "WordPress login probing"
+  },
+  {
+    "cluster_id": 256,
+    "analysis": "Robots.txt fetch activity"
+  },
+  {
+    "cluster_id": 257,
+    "analysis": "Benign root domain redirect requests"
+  },
+  {
+    "cluster_id": 258,
+    "analysis": "Node.js API RCE probing"
+  },
+  {
+    "cluster_id": 259,
+    "analysis": "Go HTTP client root redirect checks"
+  },
+  {
+    "cluster_id": 260,
+    "analysis": "Domain root redirect probing"
+  },
+  {
+    "cluster_id": 261,
+    "analysis": "Small-business research bot crawling"
+  },
+  {
+    "cluster_id": 262,
+    "analysis": "CMS-Checker root probing"
+  },
+  {
+    "cluster_id": 263,
+    "analysis": "Netgear setup.cgi command injection"
+  },
+  {
+    "cluster_id": 264,
+    "analysis": "Confluence setup endpoint probing"
+  },
+  {
+    "cluster_id": 265,
+    "analysis": "Automated PHP file/webshell enumeration"
+  },
+  {
+    "cluster_id": 266,
+    "analysis": "Next.js RCE probing"
+  },
+  {
+    "cluster_id": 267,
+    "analysis": "Embedded IoT exploit path probing"
+  },
+  {
+    "cluster_id": 268,
+    "analysis": "Sensitive configuration file probing"
+  },
+  {
+    "cluster_id": 269,
+    "analysis": "Next.js .env and AWS credential probing"
+  },
+  {
+    "cluster_id": 270,
+    "analysis": "Service account JSON credential probing"
+  },
+  {
+    "cluster_id": 271,
+    "analysis": "HTTP method enumeration against root"
+  },
+  {
+    "cluster_id": 272,
+    "analysis": "Cloud secret file probing"
+  },
+  {
+    "cluster_id": 273,
+    "analysis": "WordPress REST API batch probing"
+  },
+  {
+    "cluster_id": 274,
+    "analysis": "HTTP OPTIONS method probing"
+  },
+  {
+    "cluster_id": 275,
+    "analysis": "Generic path enumeration scanning"
+  },
+  {
+    "cluster_id": 276,
+    "analysis": "Sensitive configuration file probing"
+  },
+  {
+    "cluster_id": 277,
+    "analysis": "Benign automated root/favicon requests"
+  },
+  {
+    "cluster_id": 278,
+    "analysis": ".env file exposure scanning"
+  },
+  {
+    "cluster_id": 279,
+    "analysis": "Cloudflare Security Center host probing"
+  },
+  {
+    "cluster_id": 280,
+    "analysis": "Astro source map crawler requests"
+  },
+  {
+    "cluster_id": 281,
+    "analysis": "Benign root and favicon requests"
+  },
+  {
+    "cluster_id": 282,
+    "analysis": "HNAP1 router endpoint scanning"
+  },
+  {
+    "cluster_id": 283,
+    "analysis": ".env configuration file probing"
+  },
+  {
+    "cluster_id": 284,
+    "analysis": "Robots.txt crawler traffic"
+  },
+  {
+    "cluster_id": 285,
+    "analysis": "Sensitive config/credential file probing"
+  },
+  {
+    "cluster_id": 286,
+    "analysis": "SSRF file-read probing via /read"
+  },
+  {
+    "cluster_id": 287,
+    "analysis": "Microsoft Exchange ECP eDiscovery endpoint scanning"
+  },
+  {
+    "cluster_id": 288,
+    "analysis": "Directory traversal AWS credential theft attempt"
+  },
+  {
+    "cluster_id": 289,
+    "analysis": "CircleCI configuration file probing"
+  },
+  {
+    "cluster_id": 290,
+    "analysis": "SendGrid .env credential probing"
+  },
+  {
+    "cluster_id": 291,
+    "analysis": "Spring Boot Actuator endpoint probing"
+  },
+  {
+    "cluster_id": 292,
+    "analysis": "Sensitive SSL private key probing"
+  },
+  {
+    "cluster_id": 293,
+    "analysis": "SSL private key file probing"
+  },
+  {
+    "cluster_id": 294,
+    "analysis": "Sensitive auth.json file probing"
+  },
+  {
+    "cluster_id": 295,
+    "analysis": "MCP endpoint reconnaissance"
+  },
+  {
+    "cluster_id": 296,
+    "analysis": "Robots.txt crawler/scanner probing"
+  },
+  {
+    "cluster_id": 297,
+    "analysis": "Root path probing by non-browser clients"
+  },
+  {
+    "cluster_id": 298,
+    "analysis": "Sensitive file probing (config.php.bak, .profile)"
+  },
+  {
+    "cluster_id": 299,
+    "analysis": "Benign root redirect traffic"
+  },
+  {
+    "cluster_id": 300,
+    "analysis": "Sensitive file and .git exposure scanning"
+  },
+  {
+    "cluster_id": 301,
+    "analysis": ".env secrets exposure scanning"
+  },
+  {
+    "cluster_id": 302,
+    "analysis": "Environment file (.env) enumeration"
+  },
+  {
+    "cluster_id": 303,
+    "analysis": "Benign root domain redirect requests"
+  },
+  {
+    "cluster_id": 304,
+    "analysis": "WordPress vulnerability and webshell probing"
+  },
+  {
+    "cluster_id": 305,
+    "analysis": "Palo Alto Networks Cortex Xpanse scanning"
+  },
+  {
+    "cluster_id": 306,
+    "analysis": "Curl root-path probing"
+  },
+  {
+    "cluster_id": 307,
+    "analysis": "Host header probing / virtual host scanning"
+  },
+  {
+    "cluster_id": 308,
+    "analysis": "Web root scanner reconnaissance"
+  },
+  {
+    "cluster_id": 309,
+    "analysis": "Suspicious WordPress plugin enumeration"
+  },
+  {
+    "cluster_id": 310,
+    "analysis": "GPON router exploit attempts"
+  },
+  {
+    "cluster_id": 311,
+    "analysis": "Spring Boot Actuator health scanning"
+  },
+  {
+    "cluster_id": 312,
+    "analysis": "Feroxbuster directory brute-force reconnaissance"
+  },
+  {
+    "cluster_id": 313,
+    "analysis": "MCP endpoint reconnaissance"
+  },
+  {
+    "cluster_id": 314,
+    "analysis": ".git exposure probing"
+  },
+  {
+    "cluster_id": 315,
+    "analysis": "Path traversal /download LFI attempts"
+  },
+  {
+    "cluster_id": 316,
+    "analysis": "Laravel Debugbar exposure probing"
+  },
+  {
+    "cluster_id": 317,
+    "analysis": "Domain harvester bot crawling"
+  },
+  {
+    "cluster_id": 318,
+    "analysis": "Bot crawler robots.txt and root probing"
+  },
+  {
+    "cluster_id": 319,
+    "analysis": "Automated .env and .git reconnaissance"
+  },
+  {
+    "cluster_id": 320,
+    "analysis": "Bytespider robots.txt crawling"
+  },
+  {
+    "cluster_id": 321,
+    "analysis": "Sensitive file and backup reconnaissance"
+  },
+  {
+    "cluster_id": 322,
+    "analysis": "Sensitive file and config reconnaissance"
+  },
+  {
+    "cluster_id": 323,
+    "analysis": "Sensitive config and backup file probing"
+  },
+  {
+    "cluster_id": 324,
+    "analysis": "SAP NetWeaver metadatauploader probing"
+  },
+  {
+    "cluster_id": 325,
+    "analysis": "Exposed .env and secret file scanning"
+  },
+  {
+    "cluster_id": 326,
+    "analysis": "Livewire endpoint probing"
+  },
+  {
+    "cluster_id": 327,
+    "analysis": "Root domain redirect traffic"
+  },
+  {
+    "cluster_id": 328,
+    "analysis": "Authentication endpoint probing"
+  },
+  {
+    "cluster_id": 329,
+    "analysis": "Joomla JCE administrator path probing"
+  },
+  {
+    "cluster_id": 330,
+    "analysis": "WordPress login and REST API probing"
+  },
+  {
+    "cluster_id": 331,
+    "analysis": "Sensitive configuration and credential file scanning"
+  },
+  {
+    "cluster_id": 332,
+    "analysis": "Red Lion portal reconnaissance scanning"
+  },
+  {
+    "cluster_id": 333,
+    "analysis": "Sensitive file and config probing"
+  },
+  {
+    "cluster_id": 334,
+    "analysis": "WebSiphonBot sensitive file and endpoint enumeration"
+  },
+  {
+    "cluster_id": 335,
+    "analysis": "Git repository enumeration probing"
+  },
+  {
+    "cluster_id": 336,
+    "analysis": "Spoofed bot UA /MBS9 probing"
+  },
+  {
+    "cluster_id": 337,
+    "analysis": "Spoofed bot user-agent probing of /MBS9"
+  },
+  {
+    "cluster_id": 338,
+    "analysis": "Environment file disclosure probing"
+  },
+  {
+    "cluster_id": 339,
+    "analysis": "Spring Boot Actuator endpoint probing"
+  },
+  {
+    "cluster_id": 340,
+    "analysis": "Suspicious PHP file probing"
+  },
+  {
+    "cluster_id": 341,
+    "analysis": "Laravel Ignition health-check probing"
+  },
+  {
+    "cluster_id": 342,
+    "analysis": "Zgrab /version reconnaissance"
+  },
+  {
+    "cluster_id": 343,
+    "analysis": "ZGrab .onion service scanning"
+  },
+  {
+    "cluster_id": 344,
+    "analysis": "Zgrab scanner probing .onion hosts"
+  },
+  {
+    "cluster_id": 345,
+    "analysis": "Rails master.key probing"
+  },
+  {
+    "cluster_id": 346,
+    "analysis": "Sensitive file and CMS endpoint probing"
+  },
+  {
+    "cluster_id": 347,
+    "analysis": "Directory traversal .env file access attempt"
+  },
+  {
+    "cluster_id": 348,
+    "analysis": "SSH private key probing"
+  },
+  {
+    "cluster_id": 349,
+    "analysis": "Environment file (.env.production) probing"
+  },
+  {
+    "cluster_id": 350,
+    "analysis": "Twilio .env.php reconnaissance"
+  },
+  {
+    "cluster_id": 351,
+    "analysis": "Sensitive config file probing"
+  },
+  {
+    "cluster_id": 352,
+    "analysis": "Sensitive configuration file probing"
+  },
+  {
+    "cluster_id": 353,
+    "analysis": "LFI/SSRF file-read probing via /read"
+  },
+  {
+    "cluster_id": 354,
+    "analysis": "Terraform state file probing"
+  },
+  {
+    "cluster_id": 355,
+    "analysis": "Laravel Telescope endpoint probing"
+  },
+  {
+    "cluster_id": 356,
+    "analysis": ".env configuration file probing"
+  },
+  {
+    "cluster_id": 357,
+    "analysis": "Sensitive config file probing (application.yml)"
+  },
+  {
+    "cluster_id": 358,
+    "analysis": "SVN metadata exposure probing"
+  },
+  {
+    "cluster_id": 359,
+    "analysis": "Sensitive file/config probing"
+  },
+  {
+    "cluster_id": 360,
+    "analysis": "Jenkins config file probing"
+  },
+  {
+    "cluster_id": 361,
+    "analysis": "Azure IMDS SSRF exploitation via /fetch"
+  },
+  {
+    "cluster_id": 362,
+    "analysis": "Nginx default page probing"
+  },
+  {
+    "cluster_id": 363,
+    "analysis": "Application log file probing"
+  },
+  {
+    "cluster_id": 364,
+    "analysis": "Cloud metadata SSRF probing via /proxy"
+  },
+  {
+    "cluster_id": 365,
+    "analysis": "Streamlit secrets.toml probing"
+  },
+  {
+    "cluster_id": 366,
+    "analysis": "AWS credentials file probing"
+  },
+  {
+    "cluster_id": 367,
+    "analysis": "Sensitive .env file probing"
+  },
+  {
+    "cluster_id": 368,
+    "analysis": "Sensitive configuration file probing"
+  },
+  {
+    "cluster_id": 369,
+    "analysis": "Sensitive log file probing"
+  },
+  {
+    "cluster_id": 370,
+    "analysis": "Backup .env file probing"
+  },
+  {
+    "cluster_id": 371,
+    "analysis": "Docker config secret probing"
+  },
+  {
+    "cluster_id": 372,
+    "analysis": "robots.txt probing"
+  },
+  {
+    "cluster_id": 373,
+    "analysis": "Apache Struts2 OGNL command injection attempt"
+  },
+  {
+    "cluster_id": 374,
+    "analysis": "Apache Struts OGNL injection RCE attempt"
+  },
+  {
+    "cluster_id": 375,
+    "analysis": "Apache Struts action endpoint probing"
+  },
+  {
+    "cluster_id": 376,
+    "analysis": "Composer auth.json credential probing"
+  },
+  {
+    "cluster_id": 377,
+    "analysis": "Azure .env config file probing"
+  },
+  {
+    "cluster_id": 378,
+    "analysis": "vault.yml secret file probing"
+  },
+  {
+    "cluster_id": 379,
+    "analysis": "Terraform state file probing"
+  },
+  {
+    "cluster_id": 380,
+    "analysis": "Exposed .git repository probing"
+  },
+  {
+    "cluster_id": 381,
+    "analysis": "SSRF/LFI probing via /read file:///proc/1/environ"
+  },
+  {
+    "cluster_id": 382,
+    "analysis": "Automated multipart form submissions"
+  },
+  {
+    "cluster_id": 383,
+    "analysis": "SSRF cloud metadata credential probing"
+  },
+  {
+    "cluster_id": 384,
+    "analysis": "Azure IMDS SSRF via /proxy"
+  },
+  {
+    "cluster_id": 385,
+    "analysis": "WordPress wp-login.php probing"
+  },
+  {
+    "cluster_id": 386,
+    "analysis": "SSRF probing for Azure access tokens"
+  },
+  {
+    "cluster_id": 387,
+    "analysis": "Sensitive file and secret scanning"
+  },
+  {
+    "cluster_id": 388,
+    "analysis": "Anthropic config file probing"
+  },
+  {
+    "cluster_id": 389,
+    "analysis": "AWS credential file probing"
+  },
+  {
+    "cluster_id": 390,
+    "analysis": "Benign favicon 404 traffic"
+  },
+  {
+    "cluster_id": 391,
+    "analysis": "Terraform state file probing"
+  },
+  {
+    "cluster_id": 392,
+    "analysis": "SSRF cloud metadata credential probing"
+  },
+  {
+    "cluster_id": 393,
+    "analysis": "Error log file probing"
+  },
+  {
+    "cluster_id": 394,
+    "analysis": "AWS metadata SSRF credential harvesting"
+  },
+  {
+    "cluster_id": 395,
+    "analysis": "Spoofed crawler reconnaissance against /MBS9"
+  },
+  {
+    "cluster_id": 396,
+    "analysis": "GitHub Host header probing"
+  },
+  {
+    "cluster_id": 397,
+    "analysis": "Spoofed bot UA /MBS9 path probing"
+  },
+  {
+    "cluster_id": 398,
+    "analysis": "WordPress scanner reconnaissance"
+  },
+  {
+    "cluster_id": 399,
+    "analysis": "Sensitive file and secret scanning reconnaissance"
+  },
+  {
+    "cluster_id": 400,
+    "analysis": "Health/readiness endpoint probing"
+  },
+  {
+    "cluster_id": 401,
+    "analysis": "Atlassian Confluence exploit probing"
+  },
+  {
+    "cluster_id": 402,
+    "analysis": "Sensitive file and secret enumeration"
+  },
+  {
+    "cluster_id": 403,
+    "analysis": "Sensitive config file reconnaissance"
+  },
+  {
+    "cluster_id": 404,
+    "analysis": "Sensitive config file probing (database.yml)"
+  },
+  {
+    "cluster_id": 405,
+    "analysis": "SiteRadar bot root probing"
+  },
+  {
+    "cluster_id": 406,
+    "analysis": "Aiohttp multipart CVE probing"
+  },
+  {
+    "cluster_id": 407,
+    "analysis": "HTTP/1.0 root path scanning"
+  },
+  {
+    "cluster_id": 408,
+    "analysis": "CVE-related multipart exploit probing"
+  },
+  {
+    "cluster_id": 409,
+    "analysis": "Serverless config file probing"
+  },
+  {
+    "cluster_id": 410,
+    "analysis": "Robots.txt crawler/bot traffic"
+  },
+  {
+    "cluster_id": 411,
+    "analysis": "Sensitive file and backup enumeration"
+  },
+  {
+    "cluster_id": 412,
+    "analysis": "GitHub profile path enumeration"
+  },
+  {
+    "cluster_id": 413,
+    "analysis": "Sensitive config and secret file enumeration"
+  },
+  {
+    "cluster_id": 414,
+    "analysis": "Sensitive file and .env enumeration"
+  },
+  {
+    "cluster_id": 415,
+    "analysis": "WordPress REST API and Gravity SMTP exploitation probing"
+  },
+  {
+    "cluster_id": 416,
+    "analysis": "Sensitive config and log file probing"
+  },
+  {
+    "cluster_id": 417,
+    "analysis": "Sensitive file and admin path reconnaissance"
+  },
+  {
+    "cluster_id": 418,
+    "analysis": "Sensitive config and secret file scanning"
+  },
+  {
+    "cluster_id": 419,
+    "analysis": "Sensitive file and secret enumeration"
+  },
+  {
+    "cluster_id": 420,
+    "analysis": "Sensitive file and secret reconnaissance"
+  },
+  {
+    "cluster_id": 421,
+    "analysis": "Sensitive file and admin panel enumeration"
+  },
+  {
+    "cluster_id": 422,
+    "analysis": "Suspicious web app and Nginx probing"
+  },
+  {
+    "cluster_id": 423,
+    "analysis": "Meta external agent crawler traffic"
+  },
+  {
+    "cluster_id": 424,
+    "analysis": "Go HTTP client endpoint probing"
+  },
+  {
+    "cluster_id": 425,
+    "analysis": "Crawler sitemap and favicon requests"
+  },
+  {
+    "cluster_id": 426,
+    "analysis": "Automated web scanner reconnaissance and exploit probing"
+  },
+  {
+    "cluster_id": 427,
+    "analysis": "Secret/config harvesting and cloud metadata SSRF probing"
+  },
+  {
+    "cluster_id": 428,
+    "analysis": "Web app runtime config and service worker probing"
+  },
+  {
+    "cluster_id": 429,
+    "analysis": "SSL VPN and remote access gateway exploit scanning"
+  },
+  {
+    "cluster_id": 430,
+    "analysis": "Sensitive configuration and secret file scanning"
+  },
+  {
+    "cluster_id": 431,
+    "analysis": "SSTP VPN endpoint probing"
+  },
+  {
+    "cluster_id": 432,
+    "analysis": "Likely benign root and redirect requests"
+  },
+  {
+    "cluster_id": 433,
+    "analysis": "Yii debug panel probing"
+  },
+  {
+    "cluster_id": 434,
+    "analysis": "Benign JavaScript asset retrieval"
+  },
+  {
+    "cluster_id": 435,
+    "analysis": "GPTBot crawler traffic"
+  },
+  {
+    "cluster_id": 436,
+    "analysis": "Distributed web probing of mbs9.org"
+  },
+  {
+    "cluster_id": 437,
+    "analysis": "llms.txt discovery bot traffic"
+  },
+  {
+    "cluster_id": 438,
+    "analysis": "Curl root path scanning"
+  },
+  {
+    "cluster_id": 439,
+    "analysis": "Meta external crawler traffic"
+  },
+  {
+    "cluster_id": 440,
+    "analysis": "Codex config file probing"
+  },
+  {
+    "cluster_id": 441,
+    "analysis": "Cloud credential and LFI/SSRF probing"
+  },
+  {
+    "cluster_id": 442,
+    "analysis": "Sensitive config and credential file probing"
+  },
+  {
+    "cluster_id": 443,
+    "analysis": "WordPress login probing"
+  },
+  {
+    "cluster_id": 444,
+    "analysis": "ChatGPT-User bot crawling"
+  },
+  {
+    "cluster_id": 445,
+    "analysis": "WordPress post checker bot traffic"
+  },
+  {
+    "cluster_id": 446,
+    "analysis": "Generic login and path enumeration"
+  },
+  {
+    "cluster_id": 447,
+    "analysis": "Sensitive config and credential file probing"
+  },
+  {
+    "cluster_id": 448,
+    "analysis": "Feroxbuster directory brute-force reconnaissance"
+  },
+  {
+    "cluster_id": 449,
+    "analysis": "WordPress and PHP webshell file enumeration"
+  },
+  {
+    "cluster_id": 450,
+    "analysis": "Automated sensitive file and secret scanning"
+  },
+  {
+    "cluster_id": 451,
+    "analysis": "Meta external crawler indexing"
+  },
+  {
+    "cluster_id": 452,
+    "analysis": "PHP webshell and WordPress probing"
+  },
+  {
+    "cluster_id": 453,
+    "analysis": "PHP webshell and WordPress probing"
+  },
+  {
+    "cluster_id": 454,
+    "analysis": "llms.txt probing"
+  },
+  {
+    "cluster_id": 455,
+    "analysis": "WordPress XML-RPC probing"
+  },
+  {
+    "cluster_id": 456,
+    "analysis": "WordPress login probing"
+  },
+  {
+    "cluster_id": 457,
+    "analysis": "Sensitive .env configuration file probing"
+  },
+  {
+    "cluster_id": 458,
+    "analysis": "Automated root path reconnaissance"
+  },
+  {
+    "cluster_id": 459,
+    "analysis": "Robots.txt crawler access"
+  },
+  {
+    "cluster_id": 460,
+    "analysis": "Sensitive configuration file probing"
+  },
+  {
+    "cluster_id": 461,
+    "analysis": "Root domain redirect traffic"
+  },
+  {
+    "cluster_id": 462,
+    "analysis": "Environment file (.env) exposure probing"
+  },
+  {
+    "cluster_id": 463,
+    "analysis": "Subversion .svn metadata probing"
+  },
+  {
+    "cluster_id": 464,
+    "analysis": "Suspicious .env.dist probing"
+  },
+  {
+    "cluster_id": 465,
+    "analysis": "Benign WeChat mobile root requests"
+  },
+  {
+    "cluster_id": 466,
+    "analysis": "Sensitive config file probing"
+  },
+  {
+    "cluster_id": 467,
+    "analysis": "Sensitive credential file probing"
+  },
+  {
+    "cluster_id": 468,
+    "analysis": "Sensitive config and server-info probing"
+  },
+  {
+    "cluster_id": 469,
+    "analysis": "Sensitive config and secret file probing"
+  },
+  {
+    "cluster_id": 470,
+    "analysis": "Sensitive configuration and private key probing"
+  },
+  {
+    "cluster_id": 471,
+    "analysis": "Sensitive file reconnaissance"
+  },
+  {
+    "cluster_id": 472,
+    "analysis": "Environment file (.env) probing"
+  },
+  {
+    "cluster_id": 473,
+    "analysis": "Benign homepage redirect checks"
+  },
+  {
+    "cluster_id": 474,
+    "analysis": "Docker Compose config file probing"
+  },
+  {
+    "cluster_id": 475,
+    "analysis": "robots.txt enumeration"
+  },
+  {
+    "cluster_id": 476,
+    "analysis": "Benign root path redirect requests"
+  },
+  {
+    "cluster_id": 477,
+    "analysis": "llms.txt automated probing"
+  },
+  {
+    "cluster_id": 478,
+    "analysis": "Bot crawling for ads.txt and sitemap.xml"
+  },
+  {
+    "cluster_id": 479,
+    "analysis": "Sensitive config and source file probing"
+  },
+  {
+    "cluster_id": 480,
+    "analysis": "Sensitive config and backup file scanning"
+  },
+  {
+    "cluster_id": 481,
+    "analysis": "Random-path redirect traffic"
+  },
+  {
+    "cluster_id": 482,
+    "analysis": ".env.aws credential file probing"
+  },
+  {
+    "cluster_id": 483,
+    "analysis": "Sensitive key file probing"
+  },
+  {
+    "cluster_id": 484,
+    "analysis": "Sensitive configuration file probing"
+  },
+  {
+    "cluster_id": 485,
+    "analysis": "Sensitive secret file probing"
+  },
+  {
+    "cluster_id": 486,
+    "analysis": "Benign root domain redirect checks"
+  },
+  {
+    "cluster_id": 487,
+    "analysis": ".netrc credential file probing"
+  },
+  {
+    "cluster_id": 488,
+    "analysis": "Sensitive .env backup probing"
+  },
+  {
+    "cluster_id": 489,
+    "analysis": "secrets.yml exposure probing"
+  },
+  {
+    "cluster_id": 490,
+    "analysis": "Generic root path requests"
+  },
+  {
+    "cluster_id": 491,
+    "analysis": "Kubernetes API endpoint probing"
+  },
+  {
+    "cluster_id": 492,
+    "analysis": "Sensitive credential file probing"
+  },
+  {
+    "cluster_id": 493,
+    "analysis": "robots.txt crawling/probing"
+  },
+  {
+    "cluster_id": 494,
+    "analysis": "Sensitive .env backup file probing"
+  },
+  {
+    "cluster_id": 495,
+    "analysis": "Sitemap.xml crawler requests"
+  },
+  {
+    "cluster_id": 496,
+    "analysis": "Shell command injection and malware download attempt"
+  },
+  {
+    "cluster_id": 497,
+    "analysis": "Sensitive .env file reconnaissance"
+  },
+  {
+    "cluster_id": 498,
+    "analysis": "Database backup file probing (db.sql)"
+  }
+]

@@ -1,91 +1,30 @@
-# LogGraph
+# Loggraph
 
-This is a log analytics project.
+The goal of the project is to cluster bot traffic using a partially supervised algorithm, and to use this to gain insights into key bot activity.
 
-Key technologies used:
-- PostgreSQL
-- PostgREST (for API server)
-- Next.js (frontend app)
+# Motivations
 
-## Setup
+Home labs, and small servers rarely see specialised, targetted attacks. Therefore, the main security concern for most labs is automated bot traffic.
 
-In your nginx config, set the log format to include all fields in JSON format:
+It is therefore important to gain an in depth understanding of bot traffic, vulnerabilities targetted, to know the trends affecting security landscape of home labs.
 
-```conf
-log_format json_analytics escape=json '{'
-    '"method":"$request_method",'
-    '"host":"$host",'
-    '"path":"$uri",'
-    '"user_agent":"$http_user_agent",'
-    '"request_length":$request_length,'
-    '"status_code":$status,'
-    '"server_protocol":"$server_protocol",'
-    '"server_name":"$server_name",'
-    '"remote_addr":"$remote_addr",'
-    '"query_string":"$args",'
-    '"accept_encoding":"$http_accept_encoding",'
-    '"content_type":"$http_content_type",'
-    '"scheme":"$scheme"'
-'}';
+# Project overview
 
-access_log /var/log/nginx/access_json json_analytics;
-```
+As a first step, a webserver is setup that records all incomming HTTP requests, and stores them in a SQL database. Requests are broken down into request parts: method, source ip, host, endpoint, important headers, etc... are all stored as sepperate atomic units.
 
-Create the FIFO for Nginx: `sudo mkfifo /var/log/nginx/access_json`
+A fully connected undirected graph is compiled, with the nodes representing distinct requests, and the weight of the edges being the Jaccard similarity index of the set of parts in each requests. To decrease graph size and to remove noise, and edge whose weight is less then 0.3 is dropped. The final graph used contained roughly 60k nodes, i.e.: 60k distinct HTTP requests.
 
-Build the uploader:
-```sh
-sudo apt-get update && sudo apt-get install -y gcc libcurl4-openssl-dev libjson-c-dev
-gcc upload/main.c -lcurl -ljson-c -o loggraph
-sudo cp loggraph /usr/local/bin/loggraph
-sudo chown root:root /usr/local/bin/loggraph
-sudo chmod 755 /usr/local/bin/loggraph
-```
+Next, the Leiden clustering algorithm is used to cluster nodes based on the graph. After dropping clusters whose heterogeniety score was very high, or contained only 1 item, the algorithm compiled 499 clusters. I used the Deepseek API to generate a label and a brief discription of the HTTP requests in each cluster.
 
-Create the env files for the uploader in `/etc/loggraph/config.env`:
+The number of distinct requests in each cluster followed a long-tail distribution. The most commonly occuring request count in a cluster was 2, but with a mean request count of 116, the distribution had a strong postive skew. The std. deviation of this metric was 545, demonstrating that the spread is massive. The largest cluster contained 5084 requests, and of the 499 total, only 50 clusters contained more than 100 items. Therefore, most clusters were small.
 
-```env
-UPLOAD_TOKEN=JWT_ACCESS_TOKEN
-UPLOAD_ENDPOINT=https://something
-```
+The aim of this project was to identify the most commonly targetted applications, and the biggest trends in bot traffic. For this purpose, larger clusters are more interesting, since they demonstrate that many different HTTP requests share similar features. These shared features are the biggest trends in bot traffic, concluding the project. Of the 50 clusters that contained more than 100 requests, many clusters shared common themes. By manually compiling the themes, I determine that the trends are:
 
-Make sure it has the correct permissions:
-
-```sh
-sudo chown root:root /etc/loggraph/config.env
-sudo chmod 600 /etc/loggraph/config.env
-```
-
-For security, create an additional user for the uploader:
-
-```shell
-sudo useradd -r -s /bin/false loggraph
-sudo chown www-data:loggraph /var/log/nginx/access_json
-sudo chmod 640 /var/log/nginx/access_json
-```
-
-Create the systemd service for the uploader in `/etc/systemd/system/loggraph.service`:
-
-```conf
-[Unit]
-Description=Loggraph
-After=network.target
-
-[Service]
-Type=simple
-User=loggraph
-Group=loggraph
-
-EnvironmentFile=/etc/loggraph/config.env
-
-ExecStart=/usr/local/bin/loggraph /var/log/nginx/access_json
-Restart=on-failure
-RestartSec=5s
-
-# Security sandboxing
-ProtectSystem=full
-PrivateTmp=true
-
-[Install]
-WantedBy=multi-user.target
-```
+1. Wordpress is targetted a lot
+2. Vulnerabilities PHP frameworks, applications are commonly targetted
+3. Web crawlers for search engines are commonly seen
+4. A lot of malicious requests try to download sensitive files such as /.env, /.git/config, or well known secret files for a range of services, hoping that they are insecurly exposed.
+5. Directory brute force is commonly seen
+6. Authentication endpoint probing, and searching for associated vulnerabilties
+7. User agent spoofing, is commonly seen in bot traffic.
+8. A range of differnet exploit scanners are commonly seen 

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+## This script was made by AI
+
 import argparse
 import json
 import struct
@@ -8,43 +11,47 @@ from urllib.request import urlopen
 
 
 def stream_json_array(source: str):
+    decoder = json.JSONDecoder()
+    parsed_document = False
+    buffer = ""
+
+    def parse_buffer():
+        nonlocal buffer, parsed_document
+        while True:
+            buffer = buffer.lstrip()
+            if not buffer:
+                return
+            try:
+                value, end = decoder.raw_decode(buffer)
+            except json.JSONDecodeError:
+                return
+            buffer = buffer[end:]
+            parsed_document = True
+            if not isinstance(value, list):
+                raise TypeError("The JSON document must be an array of graph edge objects")
+            for item in value:
+                yield item
+
     if source.startswith(("http://", "https://")):
         with urlopen(source) as response:
-            decoder = json.JSONDecoder()
             chunk = response.read(1 << 20)
-            buffer = ""
             while chunk:
                 buffer += chunk.decode("utf-8", errors="strict")
-                while True:
-                    try:
-                        value, end = decoder.raw_decode(buffer)
-                    except json.JSONDecodeError:
-                        break
-                    buffer = buffer[end:]
-                    if not isinstance(value, list):
-                        raise TypeError("The JSON document must be an array of graph edge objects")
-                    for item in value:
-                        yield item
+                yield from parse_buffer()
                 chunk = response.read(1 << 20)
     else:
         with Path(source).open("r", encoding="utf-8") as fh:
-            decoder = json.JSONDecoder()
-            buffer = ""
             while True:
                 chunk = fh.read(1 << 20)
                 if not chunk:
                     break
                 buffer += chunk
-                while True:
-                    try:
-                        value, end = decoder.raw_decode(buffer)
-                    except json.JSONDecodeError:
-                        break
-                    buffer = buffer[end:]
-                    if not isinstance(value, list):
-                        raise TypeError("The JSON document must be an array of graph edge objects")
-                    for item in value:
-                        yield item
+                yield from parse_buffer()
+
+    if buffer.strip():
+        raise ValueError("Input ended with invalid or incomplete JSON")
+    if not parsed_document:
+        raise ValueError("No JSON document found in input")
 
 
 def write_graph_edges(source: str, output_path: str):

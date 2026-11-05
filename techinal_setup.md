@@ -89,3 +89,11 @@ PrivateTmp=true
 [Install]
 WantedBy=multi-user.target
 ```
+
+## Refreshing graph
+
+Assuming postgrest is running correctly on `localhost:3000`, to generate binary graph for the webapp, run this:
+
+```shell
+sudo python3 generate_graph_edges.py http://localhost:3000/graph_view -o /var/www/html/graph_view
+```

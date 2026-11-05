@@ -7,21 +7,50 @@ from pathlib import Path
 from urllib.request import urlopen
 
 
-def load_json(source: str):
+def stream_json_array(source: str):
     if source.startswith(("http://", "https://")):
         with urlopen(source) as response:
-            payload = response.read()
+            decoder = json.JSONDecoder()
+            chunk = response.read(1 << 20)
+            buffer = ""
+            while chunk:
+                buffer += chunk.decode("utf-8", errors="strict")
+                while True:
+                    try:
+                        value, end = decoder.raw_decode(buffer)
+                    except json.JSONDecodeError:
+                        break
+                    buffer = buffer[end:]
+                    if not isinstance(value, list):
+                        raise TypeError("The JSON document must be an array of graph edge objects")
+                    for item in value:
+                        yield item
+                chunk = response.read(1 << 20)
     else:
-        path = Path(source)
-        payload = path.read_bytes()
+        with Path(source).open("r", encoding="utf-8") as fh:
+            decoder = json.JSONDecoder()
+            buffer = ""
+            while True:
+                chunk = fh.read(1 << 20)
+                if not chunk:
+                    break
+                buffer += chunk
+                while True:
+                    try:
+                        value, end = decoder.raw_decode(buffer)
+                    except json.JSONDecodeError:
+                        break
+                    buffer = buffer[end:]
+                    if not isinstance(value, list):
+                        raise TypeError("The JSON document must be an array of graph edge objects")
+                    for item in value:
+                        yield item
 
-    return json.loads(payload.decode("utf-8"))
 
-
-def write_graph_edges(rows, output_path: str):
+def write_graph_edges(source: str, output_path: str):
     output = Path(output_path)
     with output.open("wb") as fh:
-        for row in rows:
+        for row in stream_json_array(source):
             if not isinstance(row, dict):
                 raise TypeError(f"Expected an object for each graph edge, got {type(row)!r}")
 
@@ -55,10 +84,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        rows = load_json(args.input_json)
-        if not isinstance(rows, list):
-            raise TypeError("The JSON document must be an array of graph edge objects")
-        write_graph_edges(rows, args.output)
+        write_graph_edges(args.input_json, args.output)
     except Exception as exc:  # pragma: no cover - CLI error handling
         print(f"error: {exc}", file=sys.stderr)
         raise SystemExit(1)

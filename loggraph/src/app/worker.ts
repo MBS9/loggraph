@@ -15,7 +15,7 @@ interface Cluster {
   nodes: number[]
 }
 
-function runClustering(graph: unknown, resolution: number, maxScore: number) {
+function runClustering(graph: Uint8Array, resolution: number, maxScore: number) {
   const startTime = performance.now()
   const cluster = Wasm.cluster(graph, resolution, maxScore) as Cluster[]
   const endTime = performance.now()
@@ -83,10 +83,11 @@ self.onmessage = async (event: MessageEvent<InputMessageSchema>) => {
       new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
         xhr.open('GET', graphUrl)
-        xhr.responseType = 'json'
+        xhr.responseType = 'arraybuffer'
         xhr.onload = () => {
           if (xhr.status >= 200 && xhr.status < 300) {
-            resolve(xhr.response)
+            const bytes = new Uint8Array(xhr.response as ArrayBuffer)
+            resolve(bytes)
           } else {
             reject(new Error(`Failed to fetch graph: ${xhr.status}`))
           }
@@ -110,7 +111,7 @@ self.onmessage = async (event: MessageEvent<InputMessageSchema>) => {
       })
         .then(data => {
           sendMessage({ type: 'status_update', status: 'Clustering...' })
-          return runClustering(data, resolution, maxScore)
+          return runClustering(data as Uint8Array, resolution, maxScore)
         }),
       fetch(requestsUrl, { signal: abortController.signal }).then(response => {
         if (!response.ok) {

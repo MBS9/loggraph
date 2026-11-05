@@ -1,12 +1,13 @@
-use wasm_bindgen::prelude::*;
+use serde::{Deserialize, Serialize};
+use single_clustering::community_search::leiden::{LeidenConfig, ObjectiveKind, leiden};
+use single_clustering::network::CSRNetwork;
 use std::collections::HashMap;
 use std::panic;
 use std::panic::PanicHookInfo;
-use serde::{Deserialize, Serialize};
-use single_clustering::network::CSRNetwork;
-use single_clustering::community_search::leiden::{leiden, LeidenConfig, ObjectiveKind};
+use wasm_bindgen::prelude::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Copy)]
+#[repr(C)]
 pub struct GraphEdge {
     request_1: usize,
     request_2: usize,
@@ -25,21 +26,32 @@ extern "C" {
     pub fn error(s: &str);
 }
 
-type GraphEdges = Vec<GraphEdge>;
+fn graph_edge_count(bytes: &[u8]) -> usize {
+    let record_size = std::mem::size_of::<GraphEdge>();
+    assert_eq!(
+        bytes.len() % record_size,
+        0,
+        "graph edge file length is not a multiple of GraphEdge size"
+    );
+    bytes.len() / record_size
+}
 
 #[wasm_bindgen]
-pub fn cluster(json: JsValue, resolution: f64, max_score: f64) -> Result<JsValue, JsValue> {
-    let js_edges: GraphEdges = serde_wasm_bindgen::from_value(json)
-        .map_err(|e| JsValue::from_str(&format!("Invalid input JSON: {e}")))?;
-
-    let mut edges: HashMap<(usize, usize), f64> = HashMap::with_capacity(js_edges.len());
+pub fn cluster(graph_bytes: &[u8], resolution: f64, max_score: f64) -> Result<JsValue, JsValue> {
+    let edge_count = graph_edge_count(graph_bytes);
+    let mut edges: HashMap<(usize, usize), f64> = HashMap::with_capacity(edge_count);
     let mut node_largest = 0;
-    for mut edge in js_edges {
-        if edge.request_1 > edge.request_2 {
-            std::mem::swap(&mut edge.request_1, &mut edge.request_2);
+
+    let ptr = graph_bytes.as_ptr() as *const GraphEdge;
+    unsafe {
+        for i in 0..edge_count {
+            let mut edge = *ptr.add(i);
+            if edge.request_1 > edge.request_2 {
+                std::mem::swap(&mut edge.request_1, &mut edge.request_2);
+            }
+            edges.insert((edge.request_1, edge.request_2), edge.jaccard_index);
+            node_largest = node_largest.max(edge.request_2);
         }
-        edges.insert((edge.request_1, edge.request_2), edge.jaccard_index);
-        node_largest = node_largest.max(edge.request_2);
     }
 
     let n_nodes = node_largest + 1;
@@ -61,30 +73,46 @@ pub fn cluster(json: JsValue, resolution: f64, max_score: f64) -> Result<JsValue
     let clustering = leiden(&network, &config)
         .map_err(|e| JsValue::from_str(&format!("Failed to cluster graph: {e}")))?;
 
-
     let mut heterogeneity_score: Vec<f64> = Vec::with_capacity(clustering.clusters().len());
     for cluster_nodes in clustering.clusters().iter() {
         let mut sum = 0.0;
         let mut count = 0;
         for (i, node1) in cluster_nodes.iter().enumerate() {
             for node2 in &cluster_nodes[i + 1..] {
-                let key = if node1 <= node2 { (*node1, *node2) } else { (*node2, *node1) };
+                let key = if node1 <= node2 {
+                    (*node1, *node2)
+                } else {
+                    (*node2, *node1)
+                };
                 if let Some(&jaccard_index) = edges.get(&key) {
                     sum += jaccard_index;
                     count += 1;
                 }
             }
         }
-        heterogeneity_score.push(if count > 0 { 1.0 - sum / count as f64 } else { 1.0 });
+        heterogeneity_score.push(if count > 0 {
+            1.0 - sum / count as f64
+        } else {
+            1.0
+        });
     }
-    
-    
-    let mut clusters: Vec<Cluster> = clustering.clusters().iter().zip(heterogeneity_score.iter()).map(|(nodes, &het_score)| Cluster {
-        heterogeneity_score: het_score,
-        nodes: nodes.clone(),
-    }).filter(|cluster| cluster.heterogeneity_score < max_score).collect();
 
-    clusters.sort_unstable_by(|a, b| a.heterogeneity_score.partial_cmp(&b.heterogeneity_score).unwrap_or(std::cmp::Ordering::Equal));
+    let mut clusters: Vec<Cluster> = clustering
+        .clusters()
+        .iter()
+        .zip(heterogeneity_score.iter())
+        .map(|(nodes, &het_score)| Cluster {
+            heterogeneity_score: het_score,
+            nodes: nodes.clone(),
+        })
+        .filter(|cluster| cluster.heterogeneity_score < max_score)
+        .collect();
+
+    clusters.sort_unstable_by(|a, b| {
+        a.heterogeneity_score
+            .partial_cmp(&b.heterogeneity_score)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
 
     Ok(serde_wasm_bindgen::to_value(&clusters)
         .map_err(|e| JsValue::from_str(&format!("Failed to serialize result: {e}")))?)

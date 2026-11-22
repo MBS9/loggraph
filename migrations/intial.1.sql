@@ -49,3 +49,14 @@ CREATE TABLE request_to_parts (
 );
 
 CREATE INDEX idx_request_to_parts_request_id ON request_to_parts(request_id);
+
+CREATE INDEX idx_requests_created_at_id
+ON requests (created_at, id);
+
+DROP INDEX IF EXISTS idx_request_to_parts_request_id;
+CREATE INDEX idx_request_to_parts_request_id_part_id
+ON request_to_parts (request_id, part_id);
+
+CREATE INDEX idx_request_parts_part_type_non_excluded
+ON request_parts (part_type, id)
+WHERE excluded = false;

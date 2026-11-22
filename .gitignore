@@ -5,3 +5,4 @@ seed.sql
 target/
 work/*.json
 work/content.md
+.env
